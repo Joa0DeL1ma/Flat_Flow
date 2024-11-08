@@ -1,5 +1,6 @@
 package com.example.flat_flow.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.flatflow.R
+import com.example.flat_flow.R
 
 
 @Suppress("ktlint:standard:function-naming")
@@ -34,6 +36,8 @@ fun LoginScreen(
     navController: NavHostController,
     viewModel: LoginViewModel = viewModel(),
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier =
             Modifier
@@ -96,11 +100,8 @@ fun LoginScreen(
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
                 onClick = {
-                    if (viewModel.verifyLogin()) {
-                        navController.navigate("loading/2000/enterRepublic")
-                    } else {
-                        viewModel.enableWrongLoginAlert.value = true
-                    }
+                    val resultMessage = viewModel.login(navController)
+                    Toast.makeText(context, resultMessage, Toast.LENGTH_SHORT).show()
                 },
             ) {
                 Text(fontSize = 16.sp, text = "Login")

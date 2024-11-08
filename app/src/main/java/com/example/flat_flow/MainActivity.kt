@@ -14,7 +14,7 @@ import com.example.flat_flow.login.EnterRepublicScreen
 import com.example.flat_flow.login.LoadingScreen
 import com.example.flat_flow.login.LoginScreen
 import com.example.flat_flow.login.RegisterScreen
-import com.example.flatflow.ui.theme.Flat_FlowTheme
+import com.example.flat_flow.ui.theme.Flat_FlowTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

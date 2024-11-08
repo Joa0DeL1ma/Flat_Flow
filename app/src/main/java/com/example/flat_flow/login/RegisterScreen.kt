@@ -1,5 +1,6 @@
 package com.example.flat_flow.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -38,22 +39,23 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegisterViewModel = viewModel(),
 ) {
+    // Observando os estados do ViewModel
     val email by viewModel.email.collectAsState()
     val password by viewModel.password.collectAsState()
     val repeatPassword by viewModel.repeatPassword.collectAsState()
     val enableRegisterButton by viewModel.enableRegisterButton.collectAsState()
     val enableMinCharAlert by viewModel.enableMinCharAlert.collectAsState()
     val enablePasswordWontMatchAlert by viewModel.enablePasswordWontMatchAlert.collectAsState()
+    val context = LocalContext.current
 
     Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(Color(color = 0xff005BC5))
-                .padding(horizontal = 48.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(color = 0xff005BC5))
+            .padding(horizontal = 48.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        // Seu código da interface permanece o mesmo, mas agora os eventos chamam funções do ViewModel
+        // Interface de entrada dos dados
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -89,6 +91,7 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             )
         }
+        // Alertas de validação
         if (enableMinCharAlert) {
             Text(
                 modifier = Modifier.padding(top = 4.dp),
@@ -103,6 +106,7 @@ fun RegisterScreen(
                 color = Color.Yellow,
             )
         }
+        // Botões de ação
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -110,32 +114,29 @@ fun RegisterScreen(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = enableRegisterButton,
-                colors =
-                    ButtonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black,
-                        disabledContentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
-                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
                 onClick = {
-                    if (enableRegisterButton) {
-                        navController.navigate("loading/2000/enterRepublic")
-                    }
+                    val resultMessage = viewModel.register(navController)
+                    Toast.makeText(context, resultMessage, Toast.LENGTH_SHORT).show()
                 },
             ) {
                 Text(fontSize = 16.sp, text = "Register Account")
             }
             Button(
                 modifier = Modifier.fillMaxWidth(),
-                colors =
-                    ButtonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black,
-                        disabledContentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
-                    ),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
                 onClick = { navController.navigate("loading/1000/login") },
@@ -145,6 +146,7 @@ fun RegisterScreen(
         }
     }
 }
+
 
 @Suppress("ktlint:standard:function-naming")
 @Preview
