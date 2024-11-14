@@ -39,14 +39,20 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegisterViewModel = viewModel(),
 ) {
-    // Observando os estados do ViewModel
     val email by viewModel.email.collectAsState()
-    val password by viewModel.password.collectAsState()
+    val password by viewModel.senha.collectAsState()
     val repeatPassword by viewModel.repeatPassword.collectAsState()
     val enableRegisterButton by viewModel.enableRegisterButton.collectAsState()
     val enableMinCharAlert by viewModel.enableMinCharAlert.collectAsState()
     val enablePasswordWontMatchAlert by viewModel.enablePasswordWontMatchAlert.collectAsState()
+    val toastMessage by viewModel.toastMessage.collectAsState()
     val context = LocalContext.current
+
+    // Exibir Toast quando a mensagem mudar
+    if (toastMessage.isNotEmpty()) {
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
+        viewModel.clearToastMessage()
+    }
 
     Column(
         modifier = Modifier
@@ -55,7 +61,6 @@ fun RegisterScreen(
             .padding(horizontal = 48.dp),
         verticalArrangement = Arrangement.Center,
     ) {
-        // Interface de entrada dos dados
         Column(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(20.dp),
@@ -91,7 +96,6 @@ fun RegisterScreen(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             )
         }
-        // Alertas de validação
         if (enableMinCharAlert) {
             Text(
                 modifier = Modifier.padding(top = 4.dp),
@@ -106,7 +110,6 @@ fun RegisterScreen(
                 color = Color.Yellow,
             )
         }
-        // Botões de ação
         Column(
             modifier = Modifier.padding(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -122,10 +125,7 @@ fun RegisterScreen(
                 ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
-                onClick = {
-                    val resultMessage = viewModel.register(navController)
-                    Toast.makeText(context, resultMessage, Toast.LENGTH_SHORT).show()
-                },
+                onClick = { viewModel.register(navController) },
             ) {
                 Text(fontSize = 16.sp, text = "Register Account")
             }
@@ -147,8 +147,6 @@ fun RegisterScreen(
     }
 }
 
-
-@Suppress("ktlint:standard:function-naming")
 @Preview
 @Composable
 private fun RegisterScreenPreview() {

@@ -38,12 +38,21 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
 
+    // Observar a mensagem de login
+    val loginMessage = viewModel.loginMessage.value
+
+    // Mostrar Toast quando `loginMessage` for atualizado
+    if (loginMessage.isNotEmpty()) {
+        Toast.makeText(context, loginMessage, Toast.LENGTH_SHORT).show()
+        viewModel.loginMessage.value = "" // Resetar após mostrar para evitar exibição repetida
+    }
+
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .background(Color(color = 0xff005BC5))
-                .padding(horizontal = 48.dp),
+        Modifier
+            .fillMaxSize()
+            .background(Color(color = 0xff005BC5))
+            .padding(horizontal = 48.dp),
         verticalArrangement = Arrangement.Center,
     ) {
         Column(
@@ -92,16 +101,15 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = viewModel.enableLoginButton.value,
                 colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black,
-                        disabledContainerColor = Color.Gray,
-                    ),
+                ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContainerColor = Color.Gray,
+                ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
                 onClick = {
-                    val resultMessage = viewModel.login(navController)
-                    Toast.makeText(context, resultMessage, Toast.LENGTH_SHORT).show()
+                    viewModel.login(navController)
                 },
             ) {
                 Text(fontSize = 16.sp, text = "Login")
@@ -109,11 +117,11 @@ fun LoginScreen(
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Black,
-                        disabledContainerColor = Color.Gray,
-                    ),
+                ButtonDefaults.buttonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
+                    disabledContainerColor = Color.Gray,
+                ),
                 elevation = ButtonDefaults.buttonElevation(8.dp),
                 shape = RoundedCornerShape(6.dp),
                 onClick = { navController.navigate("loading/1000/register") },
@@ -123,6 +131,7 @@ fun LoginScreen(
         }
     }
 }
+
 
 @Suppress("ktlint:standard:function-naming")
 @Preview

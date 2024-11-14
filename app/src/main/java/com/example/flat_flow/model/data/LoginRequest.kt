@@ -2,7 +2,7 @@ package com.example.flat_flow.model.data
 
 data class LoginRequest(
     val email: String,
-    val password: String,
+    val senha: String,
 )
 
 data class LoginResponse(

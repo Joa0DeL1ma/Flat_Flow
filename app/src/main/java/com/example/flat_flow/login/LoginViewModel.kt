@@ -16,7 +16,7 @@ class LoginViewModel : ViewModel() {
     var password: MutableState<String> = mutableStateOf("")
     var enableWrongLoginAlert: MutableState<Boolean> = mutableStateOf(false)
     var enableLoginButton: MutableState<Boolean> = mutableStateOf(false)
-
+    var loginMessage: MutableState<String> = mutableStateOf("")
 
     // Atualiza o estado do botão de login com base nos campos
     fun updateLoginButtonState() {
@@ -24,28 +24,25 @@ class LoginViewModel : ViewModel() {
     }
 
     // Função de login que chama a API
-    fun login(navController: NavController): String {
-        var resultMessage = "Unknown error" // Mensagem padrão
-
+    fun login(navController: NavController) {
         viewModelScope.launch {
             val response = try {
                 // Chama o endpoint de login
                 RetrofitInstance.api.login(LoginRequest(email.value, password.value))
             } catch (e: IOException) {
-                resultMessage = "Network error: ${e.message}"
+                loginMessage.value = "Network error: ${e.message}"
                 return@launch
             } catch (e: HttpException) {
-                resultMessage = "Server error: ${e.message}"
+                loginMessage.value = "Server error: ${e.message}"
                 return@launch
             }
 
             if (response.isSuccessful && response.body() != null) {
-                resultMessage = "Successful login!"
+                loginMessage.value = "Successful login!"
                 navController.navigate("loading/2000/enterRepublic")
             } else {
-                resultMessage = "Login failed: ${response.message()}"
+                loginMessage.value = "Login failed: ${response.message()}"
             }
         }
-        return resultMessage
     }
 }
