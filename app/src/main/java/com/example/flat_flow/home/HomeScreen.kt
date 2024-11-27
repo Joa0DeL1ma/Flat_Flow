@@ -45,7 +45,6 @@ import com.example.flat_flow.viewModel.BulletinCardViewModelFactory
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen() {
-//todo fazer factory dos 3 tipos de cards
     val fetchBulletinCardsUseCase = FetchBulletinCardsUseCase(BulletinCardRepository(RetrofitInstance.api))
     val bulletinFactory = BulletinCardViewModelFactory(fetchBulletinCardsUseCase)
     val bulletinCardViewModel: BulletinCardViewModel = viewModel(factory = bulletinFactory)
@@ -107,9 +106,13 @@ fun HomeScreen() {
                     onClick = { /*TODO*/ }
                 )
             }
-            LazyColumn {
-                items(bulletinCards) { bulletinCard ->
-                    BulletinCard(bulletinCard)
+            if (bulletinCards.isEmpty()) {
+                Text(text = "Sem dados no Bulletin Board.")
+            } else {
+                LazyColumn {
+                    items(bulletinCards) { card ->
+                        BulletinCard(card)
+                    }
                 }
             }
             // Cleaning Calendar
@@ -215,8 +218,8 @@ fun HomeScreen() {
                     modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(billCards) { billCard ->
-                        BillCard(billCard = billCard)
+                    items(billCards) { card ->
+                        BillCard(card)
                     }
                 }
             }

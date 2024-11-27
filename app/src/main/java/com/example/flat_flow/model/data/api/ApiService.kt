@@ -22,10 +22,10 @@ interface ApiService {
         @Body registerRequest: RegisterRequest,
     ): Response<RegisterResponse>
 
-    @GET("/bulletinCards")
+    @GET("bulletinCards")
     suspend fun getBulletinCards(): List<BulletinCards>
 
-    @GET("/billCards")
+    @GET("billCards")
     suspend fun getBillCards(): List<BillCards>
 
 }

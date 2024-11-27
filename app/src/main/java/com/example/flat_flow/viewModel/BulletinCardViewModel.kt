@@ -1,5 +1,6 @@
 package com.example.flat_flow.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -19,9 +20,11 @@ class BulletinCardViewModel(private val fetchBulletinCardsUseCase: FetchBulletin
     private fun loadBulletinCards() {
         viewModelScope.launch {
             try {
-                _bulletinCards.value = fetchBulletinCardsUseCase()
+                val cards = fetchBulletinCardsUseCase()
+                Log.d("BulletinCardViewModel", "Cards carregados: $cards") // Log com TAG
+                _bulletinCards.value = cards
             } catch (e: Exception) {
-                // Trate erros aqui
+                Log.e("BulletinCardViewModel", "Erro ao carregar os dados: ${e.message}", e) // Log de erro com TAG
             }
         }
     }

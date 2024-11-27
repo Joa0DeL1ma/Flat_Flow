@@ -22,7 +22,7 @@ import com.example.flat_flow.domain.BillCards
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BillCard(billCard: BillCards) {
+fun BillCard(card: BillCards) {
     Column(
         modifier =
         Modifier
@@ -36,22 +36,22 @@ fun BillCard(billCard: BillCards) {
     ) {
             Text(
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp, text = "${billCard.numberDay}"
+                fontSize = 22.sp, text = "${card.numberDay}"
             )
-        if (billCard.dayOfTheWeek != null) {
+        if (card.dayOfTheWeek != null) {
             Text(
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                text = "${billCard.dayOfTheWeek}",
+                text = "${card.dayOfTheWeek}",
             )
         }
         Text(
             fontWeight = FontWeight.Bold,
-            text = billCard.recurrence
+            text = card.recurrence
         )
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = billCard.billName + ": ")
-        Text(text = "$" + "${billCard.value}")
+        Text(text = card.billName + ": ")
+        Text(text = "$" + "${card.value}")
     }
 }
 
@@ -59,7 +59,7 @@ fun BillCard(billCard: BillCards) {
 @Composable
 fun BillCardPreview() {
     BillCard(
-        billCard = BillCards(
+        card = BillCards(
             numberDay = 25,
             dayOfTheWeek = "Friday",
             recurrence = "Monthly",
