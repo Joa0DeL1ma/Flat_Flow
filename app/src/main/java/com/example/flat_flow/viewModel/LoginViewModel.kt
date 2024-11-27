@@ -1,4 +1,4 @@
-package com.example.flat_flow.login
+package com.example.flat_flow.viewModel
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

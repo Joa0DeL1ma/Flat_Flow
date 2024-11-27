@@ -1,4 +1,4 @@
-package com.example.flat_flow.login
+package com.example.flat_flow.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flat_flow.model.BillCardsMock
+import com.example.flat_flow.domain.BillCards
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BillCard(card: BillCardsMock) {
+fun BillCard(billCard: BillCards) {
     Column(
         modifier =
         Modifier
@@ -34,40 +34,38 @@ fun BillCard(card: BillCardsMock) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (card.numberDay != null) {
             Text(
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp, text = "${card.numberDay}"
+                fontSize = 22.sp, text = "${billCard.numberDay}"
             )
-        }
-        if (card.dayOfTheWeek != null) {
+        if (billCard.dayOfTheWeek != null) {
             Text(
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp,
-                text = "${card.dayOfTheWeek}",
+                text = "${billCard.dayOfTheWeek}",
             )
         }
         Text(
             fontWeight = FontWeight.Bold,
-            text = card.recurrence
+            text = billCard.recurrence
         )
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = card.billName + ": ")
-        Text(text = "$" + "${card.value}")
+        Text(text = billCard.billName + ": ")
+        Text(text = "$" + "${billCard.value}")
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Preview(showBackground = true)
 @Composable
 fun BillCardPreview() {
-    val mockCard =
-        BillCardsMock(
-            numberDay = 4,
-            dayOfTheWeek = null,
+    BillCard(
+        billCard = BillCards(
+            numberDay = 25,
+            dayOfTheWeek = "Friday",
             recurrence = "Monthly",
-            value = 859.01,
-            billName = "Wash dishes"
+            billName = "Rent",
+            value = 1500.00
         )
-    BillCard(card = mockCard)
+    )
 }
+

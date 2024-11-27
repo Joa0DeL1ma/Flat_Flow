@@ -33,6 +33,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.R
 import com.example.flat_flow.ui.theme.Flat_FlowTheme
+import com.example.flat_flow.viewModel.RegisterViewModel
 
 @Composable
 fun RegisterScreen(

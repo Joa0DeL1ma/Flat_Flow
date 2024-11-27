@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.flat_flow.model.CleaningCardsMock
+import com.example.flat_flow.domain.CleaningCards
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CleaningCard(task: CleaningCardsMock) {
+fun CleaningCard(task: CleaningCards) {
     Column(
         modifier =
         Modifier
@@ -34,12 +34,10 @@ fun CleaningCard(task: CleaningCardsMock) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (task.numberDay != null) {
             Text(
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp, text = "${task.numberDay}"
             )
-        }
         if (task.dayOfTheWeek != null) {
             Text(
                 fontWeight = FontWeight.Bold,
@@ -57,17 +55,16 @@ fun CleaningCard(task: CleaningCardsMock) {
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Preview(showBackground = true)
 @Composable
 fun CleaningCardPreview() {
-    val mockTask =
-        CleaningCardsMock(
-            numberDay = 14,
-            dayOfTheWeek = null,
+    CleaningCard(
+        task = CleaningCards(
+            numberDay = 22,
+            dayOfTheWeek = "Wednesday",
             recurrence = "Weekly",
-            assigned = "Susan",
-            task = "Wash dishes",
+            assigned = "John",
+            task = "Clean the bathroom"
         )
-    CleaningCard(task = mockTask)
+    )
 }
