@@ -34,10 +34,12 @@ fun CleaningCard(task: CleaningCards) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (task.numberDay != null) {
             Text(
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp, text = "${task.numberDay}"
             )
+        }
         if (task.dayOfTheWeek != null) {
             Text(
                 fontWeight = FontWeight.Bold,
@@ -60,7 +62,7 @@ fun CleaningCard(task: CleaningCards) {
 fun CleaningCardPreview() {
     CleaningCard(
         task = CleaningCards(
-            numberDay = 22,
+            numberDay = "22",
             dayOfTheWeek = "Wednesday",
             recurrence = "Weekly",
             assigned = "John",

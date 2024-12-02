@@ -42,9 +42,14 @@ class LoginViewModel : ViewModel() {
                 val body = response.body()
                 loginMessage.value = "Successful login!"
                 if (body != null) {
-                    AppSession.userSession.republica = body.republica
+                    if (body.republica != null) {
+                        AppSession.userSession.republica = body.republica.toString()
+                        navController.navigate("loading/2000/home")
+                    }
                 }
-                navController.navigate("loading/2000/enterRepublic")
+                if (AppSession.userSession.republica == null) {
+                    navController.navigate("loading/2000/enterRepublic")
+                }
             } else {
                 loginMessage.value = "Login failed: ${response.message()}"
             }

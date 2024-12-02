@@ -1,7 +1,7 @@
 package com.example.flat_flow.domain
 
 data class CleaningCards(
-    val numberDay: Int,
+    val numberDay: String?,
     val dayOfTheWeek: String?,
     val recurrence: String,
     val assigned: String,

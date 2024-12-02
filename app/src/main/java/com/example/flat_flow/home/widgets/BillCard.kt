@@ -34,10 +34,12 @@ fun BillCard(card: BillCards) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        if (card.numberDay != null) {
             Text(
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp, text = "${card.numberDay}"
             )
+        }
         if (card.dayOfTheWeek != null) {
             Text(
                 fontWeight = FontWeight.Bold,
@@ -51,7 +53,7 @@ fun BillCard(card: BillCards) {
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(text = card.billName + ": ")
-        Text(text = "$" + "${card.value}")
+        Text(text = "$" + card.value)
     }
 }
 
@@ -60,11 +62,11 @@ fun BillCard(card: BillCards) {
 fun BillCardPreview() {
     BillCard(
         card = BillCards(
-            numberDay = 25,
+            numberDay = null,
             dayOfTheWeek = "Friday",
             recurrence = "Monthly",
             billName = "Rent",
-            value = 1500.00
+            value = "1500"
         )
     )
 }

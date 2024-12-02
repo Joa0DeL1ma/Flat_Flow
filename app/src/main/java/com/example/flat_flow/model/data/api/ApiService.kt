@@ -7,6 +7,8 @@ import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
 import com.example.flat_flow.model.data.RegisterRequest
 import com.example.flat_flow.model.data.RegisterResponse
+import com.example.flat_flow.model.data.RepublicEnterRequest
+import com.example.flat_flow.model.data.RepublicEnterResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -24,14 +26,19 @@ interface ApiService {
         @Body registerRequest: RegisterRequest,
     ): Response<RegisterResponse>
 
+    @POST("republicEnter")
+    suspend fun republicEnter(
+        @Body republicEnterRequest: RepublicEnterRequest,
+    ): Response<RepublicEnterResponse>
+
     @GET("bulletinCards")
-    suspend fun getBulletinCards(@Query("republica") republica: Int): List<BulletinCards>
+    suspend fun getBulletinCards(@Query("republica") republica: String): List<BulletinCards>
 
     @GET("billCards")
-    suspend fun getBillCards(): List<BillCards>
+    suspend fun getBillCards(@Query("republica") republica: String): List<BillCards>
 
     @GET("cleaningCards")
-    suspend fun getCleaningCards(@Query("republica") republica: Int): List<CleaningCards>
+    suspend fun getCleaningCards(@Query("republica") republica: String): List<CleaningCards>
 
 }
 

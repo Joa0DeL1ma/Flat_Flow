@@ -172,7 +172,7 @@ fun HomeScreen() {
                     }
                 }
                 if (cleaningCards.isEmpty()) {
-                    Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no cleaning Board.")
+                    Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no Cleaning Board.")
                 } else {
                     LazyRow(
                         modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
@@ -228,12 +228,16 @@ fun HomeScreen() {
                             )
                         }
                     }
-                    LazyRow(
-                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        items(billCards) { card ->
-                            BillCard(card)
+                    if (billCards.isEmpty()) {
+                        Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no Bill Board.")
+                    } else {
+                        LazyRow(
+                            modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            items(billCards) { card ->
+                                BillCard(card)
+                            }
                         }
                     }
                 }

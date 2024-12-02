@@ -24,27 +24,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.R
+import com.example.flat_flow.viewModel.RepublicEnterViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun EnterRepublicScreen(navController: NavHostController) {
+fun EnterRepublicScreen(
+    navController: NavHostController,
+    viewModel: RepublicEnterViewModel = viewModel(),
+) {
     var insertCodeError by remember { mutableStateOf(false) }
 
     Box(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .background(Color(color = 0xff005BC5))
-                .padding(horizontal = 48.dp),
+        Modifier
+            .fillMaxSize()
+            .background(Color(color = 0xff005BC5))
+            .padding(horizontal = 48.dp),
         contentAlignment = Alignment.Center,
     ) {
         Column(
@@ -64,8 +67,9 @@ fun EnterRepublicScreen(navController: NavHostController) {
                 )
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = "",
-                    onValueChange = {},
+                    value = viewModel.republica.value,
+                    onValueChange = { newValue ->
+                        viewModel.republica.value = newValue },
                     label = { Text(text = "Code...") },
                     trailingIcon = {
                         IconButton(
@@ -94,51 +98,39 @@ fun EnterRepublicScreen(navController: NavHostController) {
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black,
-                            disabledContentColor = Color.White,
-                            disabledContainerColor = Color.Gray,
-                        ),
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black,
+                        disabledContentColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                    ),
                     elevation = ButtonDefaults.buttonElevation(8.dp),
                     shape = RoundedCornerShape(6.dp),
-                    onClick = { /*TODO*/ },
-                    enabled = false,
+                    onClick = {
+                        viewModel.republicEnter(navController)
+                    },
+                    enabled = viewModel.republica.value.isNotBlank(),
                 ) {
                     Text(fontSize = 16.sp, text = "Enter")
                 }
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color.White,
-                            contentColor = Color.Black,
-                            disabledContentColor = Color.White,
-                            disabledContainerColor = Color.Gray,
-                        ),
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black,
+                        disabledContentColor = Color.White,
+                        disabledContainerColor = Color.Gray,
+                    ),
                     elevation = ButtonDefaults.buttonElevation(8.dp),
                     shape = RoundedCornerShape(6.dp),
                     onClick = { /*TODO*/ },
-                    enabled = false,
+                    enabled = true, //todo quer mesmo criar república?
                 ) {
                     Text(fontSize = 16.sp, text = "Create republic")
                 }
             }
         }
-        // Texto sobreposto com rotação
-        Text(
-            lineHeight = 40.sp,
-            text = "Desativado até o próximo teste.",
-            color = Color.Black,
-            fontWeight = FontWeight.Bold,
-            fontSize = 40.sp,
-            modifier =
-                Modifier
-                    .align(Alignment.Center)
-                    .graphicsLayer {
-                        rotationZ = 45f
-                    },
-        )
     }
 }
 
