@@ -2,6 +2,7 @@ package com.example.flat_flow.model.data.api
 
 import com.example.flat_flow.domain.BillCards
 import com.example.flat_flow.domain.BulletinCards
+import com.example.flat_flow.domain.CleaningCards
 import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
 import com.example.flat_flow.model.data.RegisterRequest
@@ -10,6 +11,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("usuarios/login")
@@ -23,10 +25,13 @@ interface ApiService {
     ): Response<RegisterResponse>
 
     @GET("bulletinCards")
-    suspend fun getBulletinCards(): List<BulletinCards>
+    suspend fun getBulletinCards(@Query("republica") republica: Int): List<BulletinCards>
 
     @GET("billCards")
     suspend fun getBillCards(): List<BillCards>
+
+    @GET("cleaningCards")
+    suspend fun getCleaningCards(republica: Int): List<CleaningCards>
 
 }
 

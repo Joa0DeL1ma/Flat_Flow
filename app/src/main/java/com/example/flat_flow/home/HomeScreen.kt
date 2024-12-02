@@ -30,28 +30,39 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.flat_flow.R
 import com.example.flat_flow.domain.FetchBillCardsUseCase
 import com.example.flat_flow.domain.FetchBulletinCardsUseCase
+import com.example.flat_flow.domain.FetchCleaningCardsUseCase
 import com.example.flat_flow.home.widgets.BillCard
 import com.example.flat_flow.home.widgets.BulletinCard
+import com.example.flat_flow.home.widgets.CleaningCard
 import com.example.flat_flow.home.widgets.HomeTopAppBar
 import com.example.flat_flow.model.data.BillCardRepository
 import com.example.flat_flow.model.data.BulletinCardRepository
+import com.example.flat_flow.model.data.CleaningCardRepository
 import com.example.flat_flow.model.data.api.RetrofitInstance
 import com.example.flat_flow.viewModel.BillCardViewModel
 import com.example.flat_flow.viewModel.BillCardViewModelFactory
 import com.example.flat_flow.viewModel.BulletinCardViewModel
 import com.example.flat_flow.viewModel.BulletinCardViewModelFactory
+import com.example.flat_flow.viewModel.CleaningCardViewModel
+import com.example.flat_flow.viewModel.CleaningCardViewModelFactory
 
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen() {
-    val fetchBulletinCardsUseCase = FetchBulletinCardsUseCase(BulletinCardRepository(RetrofitInstance.api))
+    val fetchBulletinCardsUseCase =
+        FetchBulletinCardsUseCase(BulletinCardRepository(RetrofitInstance.api))
+    val fetchCleaningCardsUseCase =
+        FetchCleaningCardsUseCase(CleaningCardRepository(RetrofitInstance.api))
     val bulletinFactory = BulletinCardViewModelFactory(fetchBulletinCardsUseCase)
+    val cleaningFactory = CleaningCardViewModelFactory(fetchCleaningCardsUseCase)
     val bulletinCardViewModel: BulletinCardViewModel = viewModel(factory = bulletinFactory)
+    val cleaningCardViewModel: CleaningCardViewModel = viewModel(factory = cleaningFactory)
     val fetchBillCardsUseCase = FetchBillCardsUseCase(BillCardRepository(RetrofitInstance.api))
     val billFactory = BillCardViewModelFactory(fetchBillCardsUseCase)
     val billCardViewModel: BillCardViewModel = viewModel(factory = billFactory)
     val bulletinCards by bulletinCardViewModel.bulletinCards
+    val cleaningCards by cleaningCardViewModel.cleaningCards
     val billCards by billCardViewModel.billCards
 
     Column(
@@ -160,66 +171,67 @@ fun HomeScreen() {
                         )
                     }
                 }
-//                LazyRow(
-//                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-//                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-//                ) {
-//                    items(cleaningCardMock) { item ->
-//                        CleaningCard(task = item)
-//                    }
-//                }
-            }
-            //Bills Calendar
-            Column(
-                modifier =
-                Modifier
-                    .padding(top = 16.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .heightIn(150.dp)
-                    .fillMaxWidth()
-                    .background(Color.White),
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(start = 16.dp)
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        text = "Bills Calendar"
-                    )
-                    Row {
-                        IconButton(
-                            content = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_delete),
-                                    contentDescription = "Touch to delete card from bulletin board",
-                                    tint = Color.Gray,
-                                )
-                            },
-                            onClick = { /*TODO*/ },
-                        )
-                        IconButton(
-                            content = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_add),
-                                    contentDescription = "Touch to add a card to the bulletin board",
-                                    tint = Color.Gray,
-                                )
-                            },
-                            onClick = { /*TODO*/ },
-                        )
+                if (cleaningCards.isEmpty()) {
+                    Text(text = "Sem dados no cleaning Board.")
+                } else {
+                    LazyColumn {
+                        items(cleaningCards) { card ->
+                            CleaningCard(card)
+                        }
                     }
                 }
-                LazyRow(
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                //Bills Calendar
+                Column(
+                    modifier =
+                    Modifier
+                        .padding(top = 16.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .heightIn(150.dp)
+                        .fillMaxWidth()
+                        .background(Color.White),
                 ) {
-                    items(billCards) { card ->
-                        BillCard(card)
+                    Row(
+                        modifier = Modifier
+                            .padding(start = 16.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            text = "Bills Calendar"
+                        )
+                        Row {
+                            IconButton(
+                                content = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_delete),
+                                        contentDescription = "Touch to delete card from bulletin board",
+                                        tint = Color.Gray,
+                                    )
+                                },
+                                onClick = { /*TODO*/ },
+                            )
+                            IconButton(
+                                content = {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_add),
+                                        contentDescription = "Touch to add a card to the bulletin board",
+                                        tint = Color.Gray,
+                                    )
+                                },
+                                onClick = { /*TODO*/ },
+                            )
+                        }
+                    }
+                    LazyRow(
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        items(billCards) { card ->
+                            BillCard(card)
+                        }
                     }
                 }
             }

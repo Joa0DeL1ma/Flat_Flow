@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.example.flat_flow.AppSession
+import com.example.flat_flow.UserSession
 import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.api.RetrofitInstance
 import kotlinx.coroutines.launch
@@ -36,9 +38,12 @@ class LoginViewModel : ViewModel() {
                 loginMessage.value = "Server error: ${e.message}"
                 return@launch
             }
-
-            if (response.isSuccessful && response.body() != null) {
+            if (response.isSuccessful) {
+                val body = response.body()
                 loginMessage.value = "Successful login!"
+                if (body != null) {
+                    AppSession.userSession.republica = body.republica
+                }
                 navController.navigate("loading/2000/enterRepublic")
             } else {
                 loginMessage.value = "Login failed: ${response.message()}"
