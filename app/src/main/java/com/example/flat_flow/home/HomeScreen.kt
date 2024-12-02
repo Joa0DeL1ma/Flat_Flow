@@ -172,9 +172,12 @@ fun HomeScreen() {
                     }
                 }
                 if (cleaningCards.isEmpty()) {
-                    Text(text = "Sem dados no cleaning Board.")
+                    Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no cleaning Board.")
                 } else {
-                    LazyColumn {
+                    LazyRow(
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
                         items(cleaningCards) { card ->
                             CleaningCard(card)
                         }

@@ -31,7 +31,7 @@ interface ApiService {
     suspend fun getBillCards(): List<BillCards>
 
     @GET("cleaningCards")
-    suspend fun getCleaningCards(republica: Int): List<CleaningCards>
+    suspend fun getCleaningCards(@Query("republica") republica: Int): List<CleaningCards>
 
 }
 
