@@ -3,6 +3,9 @@ package com.example.flat_flow.model.data.api
 import com.example.flat_flow.domain.BillCards
 import com.example.flat_flow.domain.BulletinCards
 import com.example.flat_flow.domain.CleaningCards
+import com.example.flat_flow.model.data.CreateBillCardRequest
+import com.example.flat_flow.model.data.CreateBulletinCardRequest
+import com.example.flat_flow.model.data.CreateCleaningCardRequest
 import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
 import com.example.flat_flow.model.data.RegisterRequest
@@ -30,6 +33,21 @@ interface ApiService {
     suspend fun republicEnter(
         @Body republicEnterRequest: RepublicEnterRequest,
     ): Response<RepublicEnterResponse>
+
+    @POST("createBillCard")
+    suspend fun createBillCard(
+        @Body createBillCardRequest: CreateBillCardRequest,
+    ): Response<Unit>
+
+    @POST("createCleaningCard")
+    suspend fun createCleaningCard(
+        @Body createCleaningCardRequest: CreateCleaningCardRequest,
+    ): Response<Unit>
+
+    @POST("createBulletinCard")
+    suspend fun createBulletinCard(
+        @Body createBulletinCardRequest: CreateBulletinCardRequest,
+    ): Response<Unit>
 
     @GET("bulletinCards")
     suspend fun getBulletinCards(@Query("republica") republica: String): List<BulletinCards>

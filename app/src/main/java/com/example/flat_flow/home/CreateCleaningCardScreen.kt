@@ -32,56 +32,58 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.home.widgets.HomeTopAppBar
+import com.example.flat_flow.viewModel.CreateBillCardViewModel
+import com.example.flat_flow.viewModel.CreateCleaningCardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CreateCleaningCardScreen(navController: NavHostController) {
-    var choreName by remember { mutableStateOf("") }
-    var doerName by remember { mutableStateOf("") }
+fun CreateCleaningCardScreen(
+    navController: NavHostController,
+    viewModel: CreateCleaningCardViewModel = viewModel()
+) {
     var expandedRecurrence by remember { mutableStateOf(false) }
     var expandedWeek by remember { mutableStateOf(false) }
     var expandedMonth by remember { mutableStateOf(false) }
-    var selectedRecurrence by remember { mutableStateOf("") }
-    var selectedWeek by remember { mutableStateOf("") }
-    var selectedMonth by remember { mutableStateOf("") }
 
     val recurrenceOptions = listOf("Monthly", "Weekly")
-    val dayOfTheWeek = listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    val dayOfTheWeek =
+        listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
     val dayOfTheMonth = (1..31).map { it.toString() }
 
     Column(
         modifier =
-            Modifier
-                .background(Color(0xff005BC5))
-                .fillMaxSize()
-                .padding(start = 16.dp, top = 12.dp, end = 16.dp),
+        Modifier
+            .background(Color(0xff005BC5))
+            .fillMaxSize()
+            .padding(start = 16.dp, top = 12.dp, end = 16.dp),
     ) {
         HomeTopAppBar(
             modifier =
-                Modifier.padding(
-                    top = 6.dp,
-                    bottom = 16.dp,
-                ),
+            Modifier.padding(
+                top = 6.dp,
+                bottom = 16.dp,
+            ),
         )
         Column(
             modifier =
-                Modifier
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp))
-                    .fillMaxWidth()
-                    .heightIn(min = 300.dp)
-                    .background(Color.White)
-                    .padding(16.dp),
+            Modifier
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(topStart = 36.dp, topEnd = 36.dp))
+                .fillMaxWidth()
+                .heightIn(min = 300.dp)
+                .background(Color.White)
+                .padding(16.dp),
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 20.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 20.dp),
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
@@ -106,23 +108,25 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
             ) {
                 OutlinedTextField(
                     colors =
-                        OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.White,
-                            unfocusedBorderColor = Color(0xff005BC5),
-                            focusedContainerColor = Color.White,
-                            focusedBorderColor = Color(0xff005BC5),
-                        ),
-                    value = selectedRecurrence,
-                    onValueChange = {},
+                    OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        unfocusedBorderColor = Color(0xff005BC5),
+                        focusedContainerColor = Color.White,
+                        focusedBorderColor = Color(0xff005BC5),
+                    ),
+                    value = viewModel.recurrence.value,
+                    onValueChange = { newValue ->
+                        viewModel.recurrence.value = newValue
+                    },
                     readOnly = true,
                     placeholder = { Text("Monthly, weekly...", color = Color.LightGray) },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedRecurrence)
                     },
                     modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(),
+                    Modifier
+                        .fillMaxWidth()
+                        .menuAnchor(),
                 )
 
                 ExposedDropdownMenu(
@@ -133,7 +137,7 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
-                                selectedRecurrence = option
+                                viewModel.recurrence.value = option
                                 expandedRecurrence = false
                             },
                         )
@@ -142,7 +146,7 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
             }
 
             // TODO DAY OF THE WEEK
-            if (selectedRecurrence == "Weekly") {
+            if (viewModel.recurrence.value == "Weekly") {
                 Text(
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     fontWeight = FontWeight.Bold,
@@ -156,13 +160,13 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                 ) {
                     OutlinedTextField(
                         colors =
-                            OutlinedTextFieldDefaults.colors(
-                                unfocusedContainerColor = Color.White,
-                                unfocusedBorderColor = Color(0xff005BC5),
-                                focusedContainerColor = Color.White,
-                                focusedBorderColor = Color(0xff005BC5),
-                            ),
-                        value = selectedWeek,
+                        OutlinedTextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            unfocusedBorderColor = Color(0xff005BC5),
+                            focusedContainerColor = Color.White,
+                            focusedBorderColor = Color(0xff005BC5),
+                        ),
+                        value = viewModel.dayOfTheWeek.value?:"",
                         onValueChange = {},
                         readOnly = true,
                         placeholder = { Text("Sunday, monday...", color = Color.LightGray) },
@@ -170,9 +174,9 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedWeek)
                         },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .menuAnchor(),
+                        Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(),
                     )
 
                     ExposedDropdownMenu(
@@ -183,7 +187,7 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                             DropdownMenuItem(
                                 text = { Text(dayOfTheWeek) },
                                 onClick = {
-                                    selectedWeek = dayOfTheWeek
+                                    viewModel.dayOfTheWeek.value = dayOfTheWeek
                                     expandedWeek = false
                                 },
                             )
@@ -194,7 +198,7 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
 
             // TODO DAY OF THE MONTH
 
-            if (selectedRecurrence == "Monthly") {
+            if (viewModel.recurrence.value == "Monthly") {
                 Text(
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     fontWeight = FontWeight.Bold,
@@ -208,13 +212,13 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                 ) {
                     OutlinedTextField(
                         colors =
-                            OutlinedTextFieldDefaults.colors(
-                                unfocusedContainerColor = Color.White,
-                                unfocusedBorderColor = Color(0xff005BC5),
-                                focusedContainerColor = Color.White,
-                                focusedBorderColor = Color(0xff005BC5),
-                            ),
-                        value = selectedMonth,
+                        OutlinedTextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            unfocusedBorderColor = Color(0xff005BC5),
+                            focusedContainerColor = Color.White,
+                            focusedBorderColor = Color(0xff005BC5),
+                        ),
+                        value = viewModel.numberDay.value?:"",
                         onValueChange = {},
                         readOnly = true,
                         placeholder = { Text("Monthly, weekly, daily", color = Color.LightGray) },
@@ -222,9 +226,9 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                             ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth)
                         },
                         modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .menuAnchor(),
+                        Modifier
+                            .fillMaxWidth()
+                            .menuAnchor(),
                     )
 
                     ExposedDropdownMenu(
@@ -235,7 +239,7 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
                             DropdownMenuItem(
                                 text = { Text(dayOfTheMonth) },
                                 onClick = {
-                                    selectedMonth = dayOfTheMonth
+                                    viewModel.numberDay.value = dayOfTheMonth
                                     expandedMonth = false
                                 },
                             )
@@ -252,15 +256,20 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White,
-                        unfocusedBorderColor = Color(0xff005BC5),
-                        focusedContainerColor = Color.White,
-                        focusedBorderColor = Color(0xff005BC5),
-                    ),
-                value = choreName,
-                onValueChange = { choreName = it },
-                placeholder = { Text(color = Color.LightGray, text = "Clean windows, wash clothes...") },
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    unfocusedBorderColor = Color(0xff005BC5),
+                    focusedContainerColor = Color.White,
+                    focusedBorderColor = Color(0xff005BC5),
+                ),
+                value = viewModel.task.value,
+                onValueChange = { viewModel.task.value = it },
+                placeholder = {
+                    Text(
+                        color = Color.LightGray,
+                        text = "Clean windows, wash clothes..."
+                    )
+                },
             )
             Text(
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
@@ -270,33 +279,33 @@ fun CreateCleaningCardScreen(navController: NavHostController) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White,
-                        unfocusedBorderColor = Color(0xff005BC5),
-                        focusedContainerColor = Color.White,
-                        focusedBorderColor = Color(0xff005BC5),
-                    ),
-                value = doerName,
-                onValueChange = { doerName = it },
+                OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.White,
+                    unfocusedBorderColor = Color(0xff005BC5),
+                    focusedContainerColor = Color.White,
+                    focusedBorderColor = Color(0xff005BC5),
+                ),
+                value = viewModel.assigned.value,
+                onValueChange = { viewModel.assigned.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "Kaká, Ronaldo, Romário...") },
             )
             Button(
-                enabled = doerName.isNotEmpty(),
+                enabled = viewModel.assigned.value.isNotEmpty(),
                 shape = RoundedCornerShape(6.dp),
                 modifier =
-                    Modifier
-                        .padding(top = 32.dp)
-                        .fillMaxWidth()
-                        .height(50.dp),
+                Modifier
+                    .padding(top = 32.dp)
+                    .fillMaxWidth()
+                    .height(50.dp),
                 colors =
-                    ButtonColors(
-                        containerColor = Color(0xff005BC5),
-                        contentColor = Color.White,
-                        disabledContentColor = Color.White,
-                        disabledContainerColor = Color.Gray,
-                    ),
+                ButtonColors(
+                    containerColor = Color(0xff005BC5),
+                    contentColor = Color.White,
+                    disabledContentColor = Color.White,
+                    disabledContainerColor = Color.Gray,
+                ),
                 onClick = {
-                    // todo criar a comunicação com o banco aqui
+                    viewModel.createCleaningCard(navController)
                 },
             ) {
                 Text(text = "Create card")

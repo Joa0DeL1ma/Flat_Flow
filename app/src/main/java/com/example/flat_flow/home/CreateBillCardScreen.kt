@@ -32,25 +32,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.home.widgets.HomeTopAppBar
+import com.example.flat_flow.viewModel.CreateBillCardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CreateBillCardScreen(navController: NavHostController) {
-    var value by remember { mutableStateOf("") }
-    var billName by remember { mutableStateOf("") }
+fun CreateBillCardScreen(
+    navController: NavHostController,
+    viewModel: CreateBillCardViewModel = viewModel()
+) {
     var expandedRecurrence by remember { mutableStateOf(false) }
     var expandedWeek by remember { mutableStateOf(false) }
     var expandedMonth by remember { mutableStateOf(false) }
-    var selectedRecurrence by remember { mutableStateOf("") }
-    var selectedWeek by remember { mutableStateOf("") }
-    var selectedMonth by remember { mutableStateOf("") }
 
     val recurrenceOptions = listOf("Monthly", "Weekly")
-    val dayOfTheWeek = listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+    val dayOfTheWeek =
+        listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
     val dayOfTheMonth = (1..31).map { it.toString() }
 
     Column(
@@ -113,8 +114,9 @@ fun CreateBillCardScreen(navController: NavHostController) {
                         focusedContainerColor = Color.White,
                         focusedBorderColor = Color(0xff005BC5),
                     ),
-                    value = selectedRecurrence,
-                    onValueChange = {},
+                    value = viewModel.recurrence.value,
+                    onValueChange = { newValue ->
+                        viewModel.recurrence.value = newValue},
                     readOnly = true,
                     placeholder = { Text("Monthly, weekly...", color = Color.LightGray) },
                     trailingIcon = {
@@ -134,7 +136,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
                         DropdownMenuItem(
                             text = { Text(option) },
                             onClick = {
-                                selectedRecurrence = option
+                                viewModel.recurrence.value = option
                                 expandedRecurrence = false
                             },
                         )
@@ -143,7 +145,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
             }
 
             // TODO DAY OF THE WEEK
-            if (selectedRecurrence == "Weekly") {
+            if (viewModel.recurrence.value == "Weekly") {
                 Text(
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     fontWeight = FontWeight.Bold,
@@ -163,8 +165,8 @@ fun CreateBillCardScreen(navController: NavHostController) {
                             focusedContainerColor = Color.White,
                             focusedBorderColor = Color(0xff005BC5),
                         ),
-                        value = selectedWeek,
-                        onValueChange = {},
+                        value = viewModel.dayOfTheWeek.value?: "",
+                        onValueChange = {viewModel.dayOfTheWeek.value = it},
                         readOnly = true,
                         placeholder = { Text("Sunday, monday...", color = Color.LightGray) },
                         trailingIcon = {
@@ -184,7 +186,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
                             DropdownMenuItem(
                                 text = { Text(dayOfTheWeek) },
                                 onClick = {
-                                    selectedWeek = dayOfTheWeek
+                                    viewModel.dayOfTheWeek.value = dayOfTheWeek
                                     expandedWeek = false
                                 },
                             )
@@ -195,7 +197,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
 
             // TODO DAY OF THE MONTH
 
-            if (selectedRecurrence == "Monthly") {
+            if (viewModel.recurrence.value == "Monthly") {
                 Text(
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                     fontWeight = FontWeight.Bold,
@@ -215,7 +217,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
                             focusedContainerColor = Color.White,
                             focusedBorderColor = Color(0xff005BC5),
                         ),
-                        value = selectedMonth,
+                        value = viewModel.numberDay.value ?: "",
                         onValueChange = {},
                         readOnly = true,
                         placeholder = { Text("Monthly, weekly, daily", color = Color.LightGray) },
@@ -236,7 +238,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
                             DropdownMenuItem(
                                 text = { Text(dayOfTheMonth) },
                                 onClick = {
-                                    selectedMonth = dayOfTheMonth
+                                    viewModel.numberDay.value = dayOfTheMonth
                                     expandedMonth = false
                                 },
                             )
@@ -259,8 +261,8 @@ fun CreateBillCardScreen(navController: NavHostController) {
                     focusedContainerColor = Color.White,
                     focusedBorderColor = Color(0xff005BC5),
                 ),
-                value = value,
-                onValueChange = { value = it },
+                value = viewModel.value.value,
+                onValueChange = { viewModel.value.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "$...") },
             )
             Text(
@@ -277,12 +279,12 @@ fun CreateBillCardScreen(navController: NavHostController) {
                     focusedContainerColor = Color.White,
                     focusedBorderColor = Color(0xff005BC5),
                 ),
-                value = billName,
-                onValueChange = { billName = it },
+                value = viewModel.billName.value,
+                onValueChange = { viewModel.billName.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "Light, rent, groceries...") },
             )
             Button(
-                enabled = billName.isNotEmpty(),
+                enabled = viewModel.billName.value.isNotEmpty(),
                 shape = RoundedCornerShape(6.dp),
                 modifier =
                 Modifier
@@ -297,7 +299,7 @@ fun CreateBillCardScreen(navController: NavHostController) {
                     disabledContainerColor = Color.Gray,
                 ),
                 onClick = {
-                    // todo criar a comunicação com o banco aqui
+                    viewModel.createBillCard(navController)
                 },
             ) {
                 Text(text = "Create card")
