@@ -10,6 +10,8 @@ import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
 import com.example.flat_flow.model.data.RegisterRequest
 import com.example.flat_flow.model.data.RegisterResponse
+import com.example.flat_flow.model.data.RepublicCreateRequest
+import com.example.flat_flow.model.data.RepublicCreateResponse
 import com.example.flat_flow.model.data.RepublicEnterRequest
 import com.example.flat_flow.model.data.RepublicEnterResponse
 import retrofit2.Response
@@ -33,6 +35,11 @@ interface ApiService {
     suspend fun republicEnter(
         @Body republicEnterRequest: RepublicEnterRequest,
     ): Response<RepublicEnterResponse>
+
+    @POST("republicCreate")
+    suspend fun republicCreate(
+        @Body republicCreateRequest: RepublicCreateRequest,
+    ): Response<RepublicCreateResponse>
 
     @POST("createBillCard")
     suspend fun createBillCard(

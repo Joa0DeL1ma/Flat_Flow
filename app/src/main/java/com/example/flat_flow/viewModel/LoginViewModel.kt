@@ -44,6 +44,8 @@ class LoginViewModel : ViewModel() {
                 if (body != null) {
                     if (body.republica != null) {
                         AppSession.userSession.republica = body.republica.toString()
+                        AppSession.userSession.userId = body.userId
+                        AppSession.userSession.isAdmin = body.isAdmin
                         navController.navigate("loading/2000/home")
                     }
                 }

@@ -68,7 +68,7 @@ class RegisterViewModel : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     _toastMessage.value = "Register successful"
                     Log.d("Register", "Cadastro realizado com sucesso")
-                    navController.navigate("loading/2000/enterRepublic")
+                    navController.navigate("loading/2000/login")
                 } else {
                     _toastMessage.value = "Register fail: ${response.message()}"
                     Log.e("Register", "Erro no registro: ${response.message()}")
