@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -124,13 +126,39 @@ fun EnterRepublicScreen(
                     ),
                     elevation = ButtonDefaults.buttonElevation(8.dp),
                     shape = RoundedCornerShape(6.dp),
-                    onClick = { viewModel.createRepublic(navController) },
+                    onClick = { showDialog.value = true }, // Exibe o popup
                     enabled = viewModel.idRepublicaInserido.value.isNotBlank()
                 ) {
                     Text(fontSize = 16.sp, text = "Create republic")
                 }
             }
         }
+    }
+    // Componente do AlertDialog
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = { Text(text = "Create Republic") },
+            text = { Text("Are you sure you want to create a new republic?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        showDialog.value = false
+                        // Ação confirmada: adicionar lógica aqui
+                        viewModel.createRepublic(navController)
+                    }
+                ) {
+                    Text("Yes")
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { showDialog.value = false }
+                ) {
+                    Text("No")
+                }
+            }
+        )
     }
 }
 
