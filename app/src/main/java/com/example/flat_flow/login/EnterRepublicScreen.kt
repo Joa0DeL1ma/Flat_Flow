@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,8 @@ fun EnterRepublicScreen(
     navController: NavHostController,
     viewModel: RepublicEnterViewModel = viewModel(),
 ) {
-    var insertCodeError by remember { mutableStateOf(false) }
+    val insertCodeError by remember { mutableStateOf(false) }
+    val showDialog = remember { mutableStateOf(false) }
 
     Box(
         modifier =
@@ -67,13 +67,13 @@ fun EnterRepublicScreen(
                 )
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
-                    value = viewModel.republica.value,
+                    value = viewModel.idRepublicaInserido.value,
                     onValueChange = { newValue ->
-                        viewModel.republica.value = newValue },
+                        viewModel.idRepublicaInserido.value = newValue },
                     label = { Text(text = "Code...") },
                     trailingIcon = {
                         IconButton(
-                            onClick = { /*TODO*/ },
+                            onClick = { showDialog.value = true },
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_login),
@@ -109,7 +109,7 @@ fun EnterRepublicScreen(
                     onClick = {
                         viewModel.republicEnter(navController)
                     },
-                    enabled = viewModel.republica.value.isNotBlank(),
+                    enabled = viewModel.idRepublicaInserido.value.isNotBlank(),
                 ) {
                     Text(fontSize = 16.sp, text = "Enter")
                 }
@@ -124,8 +124,8 @@ fun EnterRepublicScreen(
                     ),
                     elevation = ButtonDefaults.buttonElevation(8.dp),
                     shape = RoundedCornerShape(6.dp),
-                    onClick = { /*TODO*/ },
-                    enabled = true, //todo quer mesmo criar república?
+                    onClick = { viewModel.createRepublic(navController) },
+                    enabled = viewModel.idRepublicaInserido.value.isNotBlank()
                 ) {
                     Text(fontSize = 16.sp, text = "Create republic")
                 }
@@ -133,6 +133,8 @@ fun EnterRepublicScreen(
         }
     }
 }
+
+
 
 @Suppress("ktlint:standard:function-naming")
 @Preview

@@ -33,17 +33,12 @@ fun BulletinCard(card: BulletinCards) {
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            color = Color.White,
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp, text = card.title
-        )
+
         Text(
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            text = card.content,
+            text = card.informaciones,
         )
     }
     Spacer(Modifier.height(8.dp))
@@ -54,8 +49,7 @@ fun BulletinCard(card: BulletinCards) {
 fun BulletinCardPreview() {
     BulletinCard(
         card = BulletinCards(
-            title = "Para Fulano",
-            content = "Lava as cueca fulano, ta fedendo a casa toda."
+            informaciones = "Lava as cueca fulano, ta fedendo a casa toda."
         )
     )
 }

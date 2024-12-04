@@ -34,26 +34,12 @@ fun CleaningCard(task: CleaningCards) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (task.numberDay != null) {
-            Text(
-                fontWeight = FontWeight.Bold,
-                fontSize = 22.sp, text = "${task.numberDay}"
-            )
-        }
-        if (task.dayOfTheWeek != null) {
-            Text(
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
-                text = "${task.dayOfTheWeek}",
-            )
-        }
         Text(
             fontWeight = FontWeight.Bold,
-            text = task.recurrence
+            text = task.quehacer
         )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(fontSize = 14.sp, text = task.assigned + ":")
-        Text(fontSize = 14.sp, text = task.task)
+        Spacer(modifier = Modifier.height(20.dp))
+        Text(fontSize = 14.sp, text = task.diaVencimiento)
     }
 }
 
@@ -62,11 +48,8 @@ fun CleaningCard(task: CleaningCards) {
 fun CleaningCardPreview() {
     CleaningCard(
         task = CleaningCards(
-            numberDay = "22",
-            dayOfTheWeek = "Wednesday",
-            recurrence = "Weekly",
-            assigned = "John",
-            task = "Clean the bathroom"
+            quehacer = "Lavar a casa",
+            diaVencimiento = "2023-12-31"
         )
     )
 }

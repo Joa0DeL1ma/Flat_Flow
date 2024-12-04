@@ -76,24 +76,6 @@ fun CreateBulletinCardScreen(
                 )
             }
             Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                fontWeight = FontWeight.Bold,
-                text = "Insert title:",
-            )
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                colors =
-                OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color(0xff005BC5),
-                    focusedContainerColor = Color.White,
-                    focusedBorderColor = Color(0xff005BC5),
-                ),
-                value = viewModel.title.value,
-                onValueChange = { viewModel.title.value = it },
-                placeholder = { Text(color = Color.LightGray, text = "Card title...") },
-            )
-            Text(
                 modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
                 fontWeight = FontWeight.Bold,
                 text = "Insert content:",
@@ -107,8 +89,8 @@ fun CreateBulletinCardScreen(
                     focusedContainerColor = Color.White,
                     focusedBorderColor = Color(0xff005BC5),
                 ),
-                value = viewModel.content.value,
-                onValueChange = { viewModel.content.value = it },
+                value = viewModel.informaciones.value,
+                onValueChange = { viewModel.informaciones.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "Card content...") },
             )
             Button(
@@ -127,7 +109,7 @@ fun CreateBulletinCardScreen(
                 onClick = {
                     viewModel.createBulletinCard(navController)
                 },
-                enabled = viewModel.title.value.isNotEmpty() && viewModel.content.value.isNotEmpty()
+                enabled = viewModel.informaciones.value.isNotEmpty()
             ) {
                 Text(text = "Create card")
             }

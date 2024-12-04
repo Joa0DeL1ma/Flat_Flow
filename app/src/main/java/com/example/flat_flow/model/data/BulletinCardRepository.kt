@@ -7,8 +7,8 @@ import com.example.flat_flow.model.data.api.ApiService
 
 class BulletinCardRepository(private val apiService: ApiService) {
     suspend fun fetchBulletinCards(): List<BulletinCards> {
-        val republica = AppSession.userSession.republica
+        val idRepublica = AppSession.userSession.idRepublica
             ?: throw IllegalStateException("Republica não definida")
-        return apiService.getBulletinCards(republica)
+        return apiService.getBulletinCards(idRepublica)
     }
 }

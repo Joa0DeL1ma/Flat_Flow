@@ -8,7 +8,7 @@ data class LoginRequest(
 data class LoginResponse(
     val success: Boolean,
     val message: String,
-    val userId: Int?,
+    val userId: Int,
     val isAdmin: Boolean,
-    val republica: Int?
+    val republica: Int
 )

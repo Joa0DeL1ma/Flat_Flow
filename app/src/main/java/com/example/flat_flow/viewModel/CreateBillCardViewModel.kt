@@ -14,11 +14,9 @@ import java.io.IOException
 
 class CreateBillCardViewModel : ViewModel() {
 
-    var numberDay: MutableState<String?> = mutableStateOf("")
-    var dayOfTheWeek: MutableState<String?> = mutableStateOf("")
-    var recurrence: MutableState<String> = mutableStateOf("")
-    var value: MutableState<String> = mutableStateOf("")
-    var billName: MutableState<String> = mutableStateOf("")
+    var valor: MutableState<String> = mutableStateOf("")
+    var compra: MutableState<String> = mutableStateOf("")
+    var diaVencimiento: MutableState<String> = mutableStateOf("")
     var createBillCardMessage: MutableState<String> = mutableStateOf("")
 
     // Função de CreateBillCard que chama a API
@@ -28,12 +26,11 @@ class CreateBillCardViewModel : ViewModel() {
                 // Chama o endpoint de CreateBillCard
                 RetrofitInstance.api.createBillCard(
                     CreateBillCardRequest(
-                        numberDay = numberDay.value,
-                        dayOfTheWeek = dayOfTheWeek.value,
-                        recurrence = recurrence.value,
-                        value = value.value,
-                        billName = billName.value,
-                        republicId = AppSession.userSession.republica
+                        valor = valor.value,
+                        diaVencimiento = diaVencimiento.value,
+                        compra = compra.value,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
+                        Usuario_idUsuarios = AppSession.userSession.idUsuario
                     )
                 )
             } catch (e: IOException) {

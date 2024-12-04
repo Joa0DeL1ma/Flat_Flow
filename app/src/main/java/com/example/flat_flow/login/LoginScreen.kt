@@ -78,9 +78,9 @@ fun LoginScreen(
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = viewModel.password.value,
+                value = viewModel.contraseña.value,
                 onValueChange = { newValue ->
-                    viewModel.password.value = newValue
+                    viewModel.contraseña.value = newValue
                     viewModel.updateLoginButtonState()
                 },
                 label = { Text(text = "Password") },

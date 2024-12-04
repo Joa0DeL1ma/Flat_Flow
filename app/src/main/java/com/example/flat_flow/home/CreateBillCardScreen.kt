@@ -13,18 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -38,22 +30,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.home.widgets.HomeTopAppBar
 import com.example.flat_flow.viewModel.CreateBillCardViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun CreateBillCardScreen(
     navController: NavHostController,
     viewModel: CreateBillCardViewModel = viewModel()
 ) {
-    var expandedRecurrence by remember { mutableStateOf(false) }
-    var expandedWeek by remember { mutableStateOf(false) }
-    var expandedMonth by remember { mutableStateOf(false) }
-
-    val recurrenceOptions = listOf("Monthly", "Weekly")
-    val dayOfTheWeek =
-        listOf("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
-    val dayOfTheMonth = (1..31).map { it.toString() }
-
     Column(
         modifier =
         Modifier
@@ -92,161 +74,6 @@ fun CreateBillCardScreen(
                 )
             }
 
-            // TODO RECURRENCE
-
-
-            Text(
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                fontWeight = FontWeight.Bold,
-                text = "Select Recurrence",
-            )
-            ExposedDropdownMenuBox(
-                expanded = expandedRecurrence,
-                onExpandedChange = {
-                    expandedRecurrence = !expandedRecurrence
-                },
-            ) {
-                OutlinedTextField(
-                    colors =
-                    OutlinedTextFieldDefaults.colors(
-                        unfocusedContainerColor = Color.White,
-                        unfocusedBorderColor = Color(0xff005BC5),
-                        focusedContainerColor = Color.White,
-                        focusedBorderColor = Color(0xff005BC5),
-                    ),
-                    value = viewModel.recurrence.value,
-                    onValueChange = { newValue ->
-                        viewModel.recurrence.value = newValue},
-                    readOnly = true,
-                    placeholder = { Text("Monthly, weekly...", color = Color.LightGray) },
-                    trailingIcon = {
-                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedRecurrence)
-                    },
-                    modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .menuAnchor(),
-                )
-
-                ExposedDropdownMenu(
-                    expanded = expandedRecurrence,
-                    onDismissRequest = { expandedRecurrence = false },
-                ) {
-                    recurrenceOptions.forEach { option ->
-                        DropdownMenuItem(
-                            text = { Text(option) },
-                            onClick = {
-                                viewModel.recurrence.value = option
-                                expandedRecurrence = false
-                            },
-                        )
-                    }
-                }
-            }
-
-            // TODO DAY OF THE WEEK
-            if (viewModel.recurrence.value == "Weekly") {
-                Text(
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                    fontWeight = FontWeight.Bold,
-                    text = "Select day of the week",
-                )
-                ExposedDropdownMenuBox(
-                    expanded = expandedWeek,
-                    onExpandedChange = {
-                        expandedWeek = !expandedWeek
-                    },
-                ) {
-                    OutlinedTextField(
-                        colors =
-                        OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.White,
-                            unfocusedBorderColor = Color(0xff005BC5),
-                            focusedContainerColor = Color.White,
-                            focusedBorderColor = Color(0xff005BC5),
-                        ),
-                        value = viewModel.dayOfTheWeek.value?: "",
-                        onValueChange = {viewModel.dayOfTheWeek.value = it},
-                        readOnly = true,
-                        placeholder = { Text("Sunday, monday...", color = Color.LightGray) },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedWeek)
-                        },
-                        modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(),
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = expandedWeek,
-                        onDismissRequest = { expandedWeek = false },
-                    ) {
-                        dayOfTheWeek.forEach { dayOfTheWeek ->
-                            DropdownMenuItem(
-                                text = { Text(dayOfTheWeek) },
-                                onClick = {
-                                    viewModel.dayOfTheWeek.value = dayOfTheWeek
-                                    expandedWeek = false
-                                },
-                            )
-                        }
-                    }
-                }
-            }
-
-            // TODO DAY OF THE MONTH
-
-            if (viewModel.recurrence.value == "Monthly") {
-                Text(
-                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                    fontWeight = FontWeight.Bold,
-                    text = "Select day of the month",
-                )
-                ExposedDropdownMenuBox(
-                    expanded = expandedMonth,
-                    onExpandedChange = {
-                        expandedMonth = !expandedMonth
-                    },
-                ) {
-                    OutlinedTextField(
-                        colors =
-                        OutlinedTextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.White,
-                            unfocusedBorderColor = Color(0xff005BC5),
-                            focusedContainerColor = Color.White,
-                            focusedBorderColor = Color(0xff005BC5),
-                        ),
-                        value = viewModel.numberDay.value ?: "",
-                        onValueChange = {},
-                        readOnly = true,
-                        placeholder = { Text("Monthly, weekly, daily", color = Color.LightGray) },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(expanded = expandedMonth)
-                        },
-                        modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .menuAnchor(),
-                    )
-
-                    ExposedDropdownMenu(
-                        expanded = expandedMonth,
-                        onDismissRequest = { expandedMonth = false },
-                    ) {
-                        dayOfTheMonth.forEach { dayOfTheMonth ->
-                            DropdownMenuItem(
-                                text = { Text(dayOfTheMonth) },
-                                onClick = {
-                                    viewModel.numberDay.value = dayOfTheMonth
-                                    expandedMonth = false
-                                },
-                            )
-                        }
-                    }
-                }
-            }
-
             Text(
                 modifier = Modifier.padding(bottom = 8.dp, top = 16.dp),
                 fontWeight = FontWeight.Bold,
@@ -261,8 +88,8 @@ fun CreateBillCardScreen(
                     focusedContainerColor = Color.White,
                     focusedBorderColor = Color(0xff005BC5),
                 ),
-                value = viewModel.value.value,
-                onValueChange = { viewModel.value.value = it },
+                value = viewModel.valor.value,
+                onValueChange = { viewModel.valor.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "$...") },
             )
             Text(
@@ -279,12 +106,12 @@ fun CreateBillCardScreen(
                     focusedContainerColor = Color.White,
                     focusedBorderColor = Color(0xff005BC5),
                 ),
-                value = viewModel.billName.value,
-                onValueChange = { viewModel.billName.value = it },
+                value = viewModel.compra.value,
+                onValueChange = { viewModel.compra.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "Light, rent, groceries...") },
             )
             Button(
-                enabled = viewModel.billName.value.isNotEmpty(),
+                enabled = viewModel.compra.value.isNotEmpty()&& viewModel.valor.value.isNotEmpty()&& viewModel.diaVencimiento.value.isNotEmpty(),
                 shape = RoundedCornerShape(6.dp),
                 modifier =
                 Modifier

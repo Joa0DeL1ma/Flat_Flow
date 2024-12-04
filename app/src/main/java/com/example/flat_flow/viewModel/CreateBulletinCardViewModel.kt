@@ -14,8 +14,7 @@ import java.io.IOException
 
 class CreateBulletinCardViewModel : ViewModel() {
 
-    var title: MutableState<String> = mutableStateOf("")
-    var content: MutableState<String> = mutableStateOf("")
+    var informaciones: MutableState<String> = mutableStateOf("")
     var createBulletinCardMessage: MutableState<String> = mutableStateOf("")
 
     // Função de createCleaningCard que chama a API
@@ -25,9 +24,9 @@ class CreateBulletinCardViewModel : ViewModel() {
                 // Chama o endpoint de createBulletinCard
                 RetrofitInstance.api.createBulletinCard(
                     CreateBulletinCardRequest(
-                        title = title.value,
-                        content = content.value,
-                        republicId = AppSession.userSession.republica
+                        informaciones = informaciones.value,
+                        idRepublica = AppSession.userSession.idRepublica,
+                        Usuario_idUsuarios = AppSession.userSession.idUsuario
                     )
                 )
             } catch (e: IOException) {

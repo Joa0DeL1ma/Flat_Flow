@@ -1,5 +1,6 @@
 package com.example.flat_flow.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
@@ -10,14 +11,16 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
-import android.util.Log
 
 class RegisterViewModel : ViewModel() {
     private val _email = MutableStateFlow("")
     val email: StateFlow<String> = _email
 
-    private val _senha = MutableStateFlow("")
-    val senha: StateFlow<String> = _senha
+    private val _nombre = MutableStateFlow("")
+    val nombre: StateFlow<String> = _nombre
+
+    private val _contraseña = MutableStateFlow("")
+    val contraseña: StateFlow<String> = _contraseña
 
     private val _repeatPassword = MutableStateFlow("")
     val repeatPassword: StateFlow<String> = _repeatPassword
@@ -40,7 +43,7 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun onPasswordChange(newPassword: String) {
-        _senha.value = newPassword
+        _contraseña.value = newPassword
         _enableMinCharAlert.value = newPassword.length < 8
         validateForm()
     }
@@ -52,8 +55,8 @@ class RegisterViewModel : ViewModel() {
 
     private fun validateForm() {
         val isEmailValid = _email.value.isNotEmpty()
-        val isPasswordValid = _senha.value.length >= 8
-        val doPasswordsMatch = _senha.value == _repeatPassword.value
+        val isPasswordValid = _contraseña.value.length >= 8
+        val doPasswordsMatch = _contraseña.value == _repeatPassword.value
 
         _enableRegisterButton.value = isEmailValid && isPasswordValid && doPasswordsMatch
         _enablePasswordWontMatchAlert.value = !doPasswordsMatch
@@ -64,7 +67,7 @@ class RegisterViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 Log.d("Register", "Iniciando requisição de registro...")
-                val response = RetrofitInstance.api.register(RegisterRequest(email.value, senha.value))
+                val response = RetrofitInstance.api.register(RegisterRequest(nombre.value, email.value, contraseña.value))
                 if (response.isSuccessful && response.body() != null) {
                     _toastMessage.value = "Register successful"
                     Log.d("Register", "Cadastro realizado com sucesso")

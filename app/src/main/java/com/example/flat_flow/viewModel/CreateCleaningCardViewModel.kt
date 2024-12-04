@@ -14,11 +14,8 @@ import java.io.IOException
 
 class CreateCleaningCardViewModel : ViewModel() {
 
-    var numberDay: MutableState<String?> = mutableStateOf("")
-    var dayOfTheWeek: MutableState<String?> = mutableStateOf("")
-    var recurrence: MutableState<String> = mutableStateOf("")
-    var assigned: MutableState<String> = mutableStateOf("")
-    var task: MutableState<String> = mutableStateOf("")
+    var quehacer: MutableState<String> = mutableStateOf("")
+    var diaVencimiento: MutableState<String> = mutableStateOf("")
     var createCleaningCardMessage: MutableState<String> = mutableStateOf("")
 
     // Função de createCleaningCard que chama a API
@@ -28,12 +25,10 @@ class CreateCleaningCardViewModel : ViewModel() {
                 // Chama o endpoint de createCleaningCard
                 RetrofitInstance.api.createCleaningCard(
                     CreateCleaningCardRequest(
-                        numberDay = numberDay.value,
-                        dayOfTheWeek = dayOfTheWeek.value,
-                        recurrence = recurrence.value,
-                        assigned = assigned.value,
-                        task = task.value,
-                        republicId = AppSession.userSession.republica
+                        quehacer = quehacer.value,
+                        diaVencimiento = diaVencimiento.value,
+                        Usuario_idUsuarios = AppSession.userSession.idUsuario,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                     )
                 )
             } catch (e: IOException) {

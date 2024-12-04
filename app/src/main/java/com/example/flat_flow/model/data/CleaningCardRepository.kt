@@ -6,8 +6,8 @@ import com.example.flat_flow.model.data.api.ApiService
 
 class CleaningCardRepository(private val apiService: ApiService) {
     suspend fun fetchCleaningCards(): List<CleaningCards> {
-        val republica = AppSession.userSession.republica
+        val idRepublica = AppSession.userSession.idRepublica
             ?: throw IllegalStateException("Republica não definida")
-        return apiService.getCleaningCards(republica)
+        return apiService.getCleaningCards(idRepublica)
     }
 }

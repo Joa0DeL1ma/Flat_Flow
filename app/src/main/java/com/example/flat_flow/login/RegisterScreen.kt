@@ -40,8 +40,9 @@ fun RegisterScreen(
     navController: NavHostController,
     viewModel: RegisterViewModel = viewModel(),
 ) {
+    val nombre by viewModel.nombre.collectAsState()
     val email by viewModel.email.collectAsState()
-    val password by viewModel.senha.collectAsState()
+    val password by viewModel.contraseña.collectAsState()
     val repeatPassword by viewModel.repeatPassword.collectAsState()
     val enableRegisterButton by viewModel.enableRegisterButton.collectAsState()
     val enableMinCharAlert by viewModel.enableMinCharAlert.collectAsState()
@@ -72,6 +73,13 @@ fun RegisterScreen(
                 painter = painterResource(id = R.drawable.ic_logo),
                 contentDescription = "",
                 tint = Color.White,
+            )
+            TextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = nombre,
+                onValueChange = viewModel::onEmailChange,
+                label = { Text(text = "Name") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),

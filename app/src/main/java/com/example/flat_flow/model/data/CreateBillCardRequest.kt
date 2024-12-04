@@ -1,10 +1,9 @@
 package com.example.flat_flow.model.data
 
 data class CreateBillCardRequest(
-    val numberDay: String?,
-    val dayOfTheWeek: String?,
-    val recurrence: String,
-    val value: String,
-    val billName: String,
-    val republicId: String?
+    val valor: String,
+    val diaVencimiento: String,
+    val compra: String,
+    val PisoCompartido_idPisoCompartido: Int,
+    val Usuario_idUsuarios: Int
 )

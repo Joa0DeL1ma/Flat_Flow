@@ -57,13 +57,13 @@ interface ApiService {
     ): Response<Unit>
 
     @GET("bulletinCards")
-    suspend fun getBulletinCards(@Query("republica") republica: String): List<BulletinCards>
+    suspend fun getBulletinCards(@Query("idRepublica") idRepublica: Int): List<BulletinCards>
 
     @GET("billCards")
-    suspend fun getBillCards(@Query("republica") republica: String): List<BillCards>
+    suspend fun getBillCards(@Query("idRepublica") idRepublica: Int): List<BillCards>
 
     @GET("cleaningCards")
-    suspend fun getCleaningCards(@Query("republica") republica: String): List<CleaningCards>
+    suspend fun getCleaningCards(@Query("idRepublica") idRepublica: Int): List<CleaningCards>
 
 }
 

@@ -1,7 +1,6 @@
 package com.example.flat_flow
 
 class UserSession {
-    var republica: String? = null
-    var userId: Int? = null
-    var isAdmin: Boolean = false
+    var idRepublica: Int = 1
+    var idUsuario: Int = 1
 }
