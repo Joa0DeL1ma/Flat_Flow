@@ -1,5 +1,6 @@
 package com.example.flat_flow.login
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -24,8 +27,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +42,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.R
 import com.example.flat_flow.viewModel.RepublicEnterViewModel
 
+@SuppressLint("RememberReturnType")
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun EnterRepublicScreen(
@@ -43,6 +51,7 @@ fun EnterRepublicScreen(
 ) {
     val insertCodeError by remember { mutableStateOf(false) }
     val showDialog = remember { mutableStateOf(false) }
+    val focusRequester = remember { FocusRequester() }
 
     Box(
         modifier =
@@ -68,11 +77,23 @@ fun EnterRepublicScreen(
                     tint = Color.White,
                 )
                 TextField(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester),
                     value = viewModel.idRepublicaInserido.value,
                     onValueChange = { newValue ->
                         viewModel.idRepublicaInserido.value = newValue },
                     label = { Text(text = "Code...") },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        keyboardType = KeyboardType.Number,
+                        imeAction = ImeAction.Done // Ação 'Done' para fechar o teclado
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            // Esconde o teclado quando "Done" é pressionado
+                            focusRequester.requestFocus()
+                        }
+                    ),
                     trailingIcon = {
                         IconButton(
                             onClick = { showDialog.value = true },
