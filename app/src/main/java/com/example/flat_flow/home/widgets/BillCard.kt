@@ -25,8 +25,9 @@ import com.example.flat_flow.viewModel.DeleteBillCardViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BillCard(card: BillCards,
-             viewModel: DeleteBillCardViewModel
+fun BillCard(
+    card: BillCards,
+    viewModel: DeleteBillCardViewModel
 ) {
     Column(
         modifier =

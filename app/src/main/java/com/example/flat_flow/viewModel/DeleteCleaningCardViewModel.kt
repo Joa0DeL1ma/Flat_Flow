@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
 class DeleteCleaningCardViewModel() : ViewModel() {
-    private val _clickableCleaningCard = mutableStateOf<Boolean>(false)
+    private val _clickableCleaningCard = mutableStateOf(false)
     val clickableCleaningCard: State<Boolean> = _clickableCleaningCard
 
     fun toggleClickableCleaningCard() {

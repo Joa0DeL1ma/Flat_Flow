@@ -4,8 +4,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 
-class DeleteBulletinCardViewModel() : ViewModel() {
-    private val _clickableBulletinCard = mutableStateOf<Boolean>(false)
+class DeleteBulletinCardViewModel: ViewModel() {
+    private val _clickableBulletinCard = mutableStateOf(false)
     val clickableBulletinCard: State<Boolean> = _clickableBulletinCard
 
     fun toggleClickableBulletinCard() {

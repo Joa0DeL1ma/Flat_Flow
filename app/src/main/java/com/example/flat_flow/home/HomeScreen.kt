@@ -220,7 +220,7 @@ fun HomeScreen(
                                 content = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_delete),
-                                        contentDescription = "Touch to delete card from bulletin board",
+                                        contentDescription = "Touch to delete card from Bill board",
                                         tint = Color.Gray,
                                     )
                                 },
@@ -230,7 +230,7 @@ fun HomeScreen(
                                 content = {
                                     Icon(
                                         painter = painterResource(id = R.drawable.ic_add),
-                                        contentDescription = "Touch to add a card to the bulletin board",
+                                        contentDescription = "Touch to add a card to the Bill board",
                                         tint = Color.Gray,
                                     )
                                 },
@@ -249,7 +249,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(billCards) { card ->
-                                BillCard(card, viewModel = deleteBillCardViewModel)
+                                BillCard(card, viewModel = deleteBillCardViewModel )
                             }
                         }
                     }
@@ -259,10 +259,4 @@ fun HomeScreen(
     }
 }
 
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        deleteBulletinCardViewModel = TODO()
-    )
-}
+

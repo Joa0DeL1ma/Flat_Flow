@@ -25,14 +25,14 @@ import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CleaningCard(task: CleaningCards,
-                 viewModel: DeleteCleaningCardViewModel
+fun CleaningCard(
+    task: CleaningCards,
+    viewModel: DeleteCleaningCardViewModel
 ) {
     Column(
         modifier =
         Modifier
-            .clickable(
-                enabled = viewModel.clickableCleaningCard.value,  onClick = { Log.d("CleaningCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${task.quehacer}") })
+            .clickable(enabled = viewModel.clickableCleaningCard.value, onClick = { Log.d("CleaningCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${task.quehacer}") })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -59,6 +59,6 @@ fun CleaningCardPreview() {
             quehacer = "Lavar a casa",
             diaVencimiento = "2023-12-31"
         ),
-        viewModel = TODO()
+        viewModel = TODO(),
     )
 }
