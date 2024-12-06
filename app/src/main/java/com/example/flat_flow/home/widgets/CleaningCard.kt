@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.flat_flow.domain.CleaningCards
 import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 
@@ -27,12 +28,16 @@ import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 @Composable
 fun CleaningCard(
     task: CleaningCards,
-    viewModel: DeleteCleaningCardViewModel
+    viewModel: DeleteCleaningCardViewModel,
+    navController: NavHostController,
 ) {
     Column(
         modifier =
         Modifier
-            .clickable(enabled = viewModel.clickableCleaningCard.value, onClick = { Log.d("CleaningCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${task.quehacer}") })
+            .clickable(
+                enabled = viewModel.clickableCleaningCard.value,
+                onClick = { viewModel.quehacer.value = task.quehacer;
+                    viewModel.deleteCleaningCard(navController) })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -60,5 +65,6 @@ fun CleaningCardPreview() {
             diaVencimiento = "2023-12-31"
         ),
         viewModel = TODO(),
+        navController = TODO(),
     )
 }

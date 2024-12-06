@@ -1,6 +1,5 @@
 package com.example.flat_flow.home.widgets
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.flat_flow.domain.BulletinCards
 import com.example.flat_flow.viewModel.DeleteBulletinCardViewModel
 
@@ -27,14 +27,16 @@ import com.example.flat_flow.viewModel.DeleteBulletinCardViewModel
 @Composable
 fun BulletinCard(
     card: BulletinCards,
-    viewModel: DeleteBulletinCardViewModel
+    viewModel: DeleteBulletinCardViewModel,
+    navController: NavHostController,
 ) {
 
     Column(
         modifier =
         Modifier
             .clickable(
-                enabled = viewModel.clickableBulletinCard.value,  onClick = { Log.d("BulletinCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${card.informaciones}") })
+                enabled = viewModel.clickableBulletinCard.value,
+                onClick = { viewModel.informaciones.value = card.informaciones; viewModel.deleteBulletinCard(navController) })
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xff005BC5))
             .heightIn(min = 80.dp)
@@ -60,6 +62,7 @@ fun BulletinCardPreview() {
         card = BulletinCards(
             informaciones = "Lava as cueca fulano, ta fedendo a casa toda."
         ),
-        viewModel = TODO()
+        viewModel = TODO(),
+        navController = TODO()
     )
 }

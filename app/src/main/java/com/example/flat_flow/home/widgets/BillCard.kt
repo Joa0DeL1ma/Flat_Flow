@@ -1,6 +1,5 @@
 package com.example.flat_flow.home.widgets
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.flat_flow.domain.BillCards
 import com.example.flat_flow.viewModel.DeleteBillCardViewModel
 
@@ -27,13 +27,15 @@ import com.example.flat_flow.viewModel.DeleteBillCardViewModel
 @Composable
 fun BillCard(
     card: BillCards,
-    viewModel: DeleteBillCardViewModel
+    viewModel: DeleteBillCardViewModel,
+    navController: NavHostController,
 ) {
     Column(
         modifier =
         Modifier
             .clickable(
-                enabled = viewModel.clickableBillCard.value,  onClick = { Log.d("BillCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${card.compra}") })
+                enabled = viewModel.clickableBillCard.value,
+                onClick = { viewModel.compra.value = card.compra; viewModel.deleteBillCard(navController) })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -65,7 +67,8 @@ fun BillCardPreview() {
             valor = "200",
             compra = "Luz"
         ),
-        viewModel = TODO()
+        viewModel = TODO(),
+        navController = TODO()
     )
 }
 

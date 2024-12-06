@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.flat_flow.R
 import com.example.flat_flow.domain.FetchBillCardsUseCase
 import com.example.flat_flow.domain.FetchBulletinCardsUseCase
@@ -53,6 +54,7 @@ import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 @Suppress("ktlint:standard:function-naming")
 @Composable
 fun HomeScreen(
+    navController: NavHostController,
     deleteBulletinCardViewModel: DeleteBulletinCardViewModel = DeleteBulletinCardViewModel(),
     deleteBillCardViewModel: DeleteBillCardViewModel = DeleteBillCardViewModel(),
     deleteCleaningCardViewModel: DeleteCleaningCardViewModel = DeleteCleaningCardViewModel()
@@ -129,7 +131,7 @@ fun HomeScreen(
             } else {
                 LazyColumn {
                     items(bulletinCards) { card ->
-                        BulletinCard(card, viewModel = deleteBulletinCardViewModel)
+                        BulletinCard(card, viewModel = deleteBulletinCardViewModel, navController = navController)
                     }
                 }
             }
@@ -189,7 +191,7 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(cleaningCards) { card ->
-                            CleaningCard(card, viewModel = deleteCleaningCardViewModel)
+                            CleaningCard(card, viewModel = deleteCleaningCardViewModel, navController = navController)
                         }
                     }
                 }
@@ -249,7 +251,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(billCards) { card ->
-                                BillCard(card, viewModel = deleteBillCardViewModel )
+                                BillCard(card, viewModel = deleteBillCardViewModel, navController = navController )
                             }
                         }
                     }

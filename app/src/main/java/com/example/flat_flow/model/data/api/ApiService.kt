@@ -6,6 +6,9 @@ import com.example.flat_flow.domain.CleaningCards
 import com.example.flat_flow.model.data.CreateBillCardRequest
 import com.example.flat_flow.model.data.CreateBulletinCardRequest
 import com.example.flat_flow.model.data.CreateCleaningCardRequest
+import com.example.flat_flow.model.data.DeleteBillCardRequest
+import com.example.flat_flow.model.data.DeleteBulletinCardRequest
+import com.example.flat_flow.model.data.DeleteCleaningCardRequest
 import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
 import com.example.flat_flow.model.data.RegisterRequest
@@ -54,6 +57,21 @@ interface ApiService {
     @POST("createBulletinCard")
     suspend fun createBulletinCard(
         @Body createBulletinCardRequest: CreateBulletinCardRequest,
+    ): Response<Unit>
+
+    @POST("deleteBulletinCard")
+    suspend fun deleteBulletinCard(
+        @Body deleteBulletinCardRequest: DeleteBulletinCardRequest,
+    ): Response<Unit>
+
+    @POST("deleteBillCard")
+    suspend fun deleteBillCard(
+        @Body deleteBillCardRequest: DeleteBillCardRequest,
+    ): Response<Unit>
+
+    @POST("deleteCleaningCard")
+    suspend fun deleteCleaningCard(
+        @Body deleteCleaningCardRequest: DeleteCleaningCardRequest,
     ): Response<Unit>
 
     @GET("bulletinCards")
