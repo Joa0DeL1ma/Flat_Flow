@@ -29,9 +29,9 @@ class MainActivity : ComponentActivity() {
                     composable("login") { LoginScreen(navController) }
                     composable("register") { RegisterScreen(navController) }
                     composable("enterRepublic") { EnterRepublicScreen(navController) }
-                    composable("billCard") { CreateBillCardScreen(navController) }
-                    composable("bulletinCard") { CreateBulletinCardScreen(navController) }
-                    composable("cleaningCard") { CreateCleaningCardScreen(navController) }
+                    composable("createBillCard") { CreateBillCardScreen(navController) }
+                    composable("createBulletinCard") { CreateBulletinCardScreen(navController) }
+                    composable("createCleaningCard") { CreateCleaningCardScreen(navController) }
 
                     // Rota para a tela de loading com parâmetros
                     composable("loading/{time}/{destination}") { backStackEntry ->

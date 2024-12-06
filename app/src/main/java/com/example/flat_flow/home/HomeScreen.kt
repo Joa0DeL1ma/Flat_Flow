@@ -17,13 +17,15 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -108,7 +110,8 @@ fun HomeScreen(
                             tint = Color.Gray,
                         )
                     },
-                    onClick = { deleteBulletinCardViewModel.toggleClickableBulletinCard()},
+                    onClick = {
+                        deleteBulletinCardViewModel.toggleClickableBulletinCard()},
                 )
                 Text(
                     fontSize = 16.sp,
@@ -123,15 +126,20 @@ fun HomeScreen(
                             tint = Color.Gray,
                         )
                     },
-                    onClick = { /*TODO*/ }
+                    onClick = { navController.navigate("createBulletinCard") }
                 )
             }
+            Text(modifier = Modifier.padding(bottom = 16.dp), fontSize = 14.sp, text = "Touch trash and card to delete a card")
             if (bulletinCards.isEmpty()) {
                 Text(text = "Sem dados no Bulletin Board.")
             } else {
                 LazyColumn {
                     items(bulletinCards) { card ->
-                        BulletinCard(card, viewModel = deleteBulletinCardViewModel, navController = navController)
+                        BulletinCard(
+                            card,
+                            viewModel = deleteBulletinCardViewModel,
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -176,7 +184,7 @@ fun HomeScreen(
                                     tint = Color.Gray,
                                 )
                             },
-                            onClick = { /*TODO*/ }
+                            onClick = { navController.navigate("createCleaningCard") }
                         )
                     }
                 }
@@ -191,7 +199,11 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(cleaningCards) { card ->
-                            CleaningCard(card, viewModel = deleteCleaningCardViewModel, navController = navController)
+                            CleaningCard(
+                                card,
+                                viewModel = deleteCleaningCardViewModel,
+                                navController = navController
+                            )
                         }
                     }
                 }
@@ -236,7 +248,7 @@ fun HomeScreen(
                                         tint = Color.Gray,
                                     )
                                 },
-                                onClick = { /*TODO*/ },
+                                onClick = { navController.navigate("createBillCard") },
                             )
                         }
                     }
@@ -251,7 +263,11 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(billCards) { card ->
-                                BillCard(card, viewModel = deleteBillCardViewModel, navController = navController )
+                                BillCard(
+                                    card,
+                                    viewModel = deleteBillCardViewModel,
+                                    navController = navController
+                                )
                             }
                         }
                     }

@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
@@ -20,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -27,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.flat_flow.R
 import com.example.flat_flow.home.widgets.HomeTopAppBar
 import com.example.flat_flow.viewModel.CreateBulletinCardViewModel
 
@@ -68,8 +72,18 @@ fun CreateBulletinCardScreen(
                     .padding(bottom = 20.dp),
                 horizontalArrangement = Arrangement.Center,
             ) {
+                IconButton(
+                    content = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+                            contentDescription = "Touch to add a card to the Bill board",
+                            tint = Color.Gray,
+                        )
+                    },
+                    onClick = { navController.navigate("home") },
+                )
                 Text(
-                    modifier = Modifier.padding(top = 16.dp),
+                    modifier = Modifier.padding(top = 16.dp, end = 20.dp),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     text = "Bulletin board card creation",

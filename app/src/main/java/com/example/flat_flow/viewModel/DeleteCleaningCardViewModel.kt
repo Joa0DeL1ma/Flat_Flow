@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.flat_flow.AppSession
-import com.example.flat_flow.model.data.DeleteBillCardRequest
 import com.example.flat_flow.model.data.DeleteCleaningCardRequest
 import com.example.flat_flow.model.data.api.RetrofitInstance
 import kotlinx.coroutines.delay
