@@ -1,6 +1,8 @@
 package com.example.flat_flow.home.widgets
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,13 +21,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flat_flow.domain.BillCards
+import com.example.flat_flow.viewModel.DeleteBillCardViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BillCard(card: BillCards) {
+fun BillCard(card: BillCards,
+             viewModel: DeleteBillCardViewModel
+) {
     Column(
         modifier =
         Modifier
+            .clickable(
+                enabled = viewModel.clickableBillCard.value,  onClick = { Log.d("BillCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${card.compra}") })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -36,14 +43,14 @@ fun BillCard(card: BillCards) {
     ) {
             Text(
                 fontWeight = FontWeight.Bold,
-                fontSize = 22.sp, text = card.compra
+                fontSize = 16.sp, text = card.compra
             )
             Text(
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
+                fontSize = 14.sp,
                 text = card.diaVencimiento,
             )
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(5.dp))
         Text(text = "$" + card.valor)
     }
 }
@@ -56,7 +63,8 @@ fun BillCardPreview() {
             diaVencimiento = "10/10/2023",
             valor = "200",
             compra = "Luz"
-        )
+        ),
+        viewModel = TODO()
     )
 }
 

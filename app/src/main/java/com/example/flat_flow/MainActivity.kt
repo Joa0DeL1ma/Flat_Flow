@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Flat_FlowTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "enterRepublic") {
+                NavHost(navController = navController, startDestination = "home") {
                     composable("home") { HomeScreen() }
                     composable("login") { LoginScreen(navController) }
                     composable("register") { RegisterScreen(navController) }
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         LoadingScreen(
                             navController = navController,
                             time = time,
-                            destination = destination,
+                            destination = destination
                         )
                     }
                 }

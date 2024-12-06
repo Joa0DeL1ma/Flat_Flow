@@ -1,6 +1,8 @@
 package com.example.flat_flow.home.widgets
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,13 +21,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flat_flow.domain.BulletinCards
+import com.example.flat_flow.viewModel.DeleteBulletinCardViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun BulletinCard(card: BulletinCards) {
+fun BulletinCard(
+    card: BulletinCards,
+    viewModel: DeleteBulletinCardViewModel
+) {
+
     Column(
         modifier =
         Modifier
+            .clickable(
+                enabled = viewModel.clickableBulletinCard.value,  onClick = { Log.d("BulletinCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${card.informaciones}") })
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xff005BC5))
             .heightIn(min = 80.dp)
@@ -50,6 +59,7 @@ fun BulletinCardPreview() {
     BulletinCard(
         card = BulletinCards(
             informaciones = "Lava as cueca fulano, ta fedendo a casa toda."
-        )
+        ),
+        viewModel = TODO()
     )
 }

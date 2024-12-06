@@ -1,6 +1,8 @@
 package com.example.flat_flow.home.widgets
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -19,13 +21,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.flat_flow.domain.CleaningCards
+import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CleaningCard(task: CleaningCards) {
+fun CleaningCard(task: CleaningCards,
+                 viewModel: DeleteCleaningCardViewModel
+) {
     Column(
         modifier =
         Modifier
+            .clickable(
+                enabled = viewModel.clickableCleaningCard.value,  onClick = { Log.d("CleaningCard", "CARD CLICADOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ${task.quehacer}") })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -35,10 +42,11 @@ fun CleaningCard(task: CleaningCards) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
             text = task.quehacer
         )
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(5.dp))
         Text(fontSize = 14.sp, text = task.diaVencimiento)
     }
 }
@@ -50,6 +58,7 @@ fun CleaningCardPreview() {
         task = CleaningCards(
             quehacer = "Lavar a casa",
             diaVencimiento = "2023-12-31"
-        )
+        ),
+        viewModel = TODO()
     )
 }

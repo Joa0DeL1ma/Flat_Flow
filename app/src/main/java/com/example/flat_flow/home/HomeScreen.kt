@@ -45,11 +45,18 @@ import com.example.flat_flow.viewModel.BulletinCardViewModel
 import com.example.flat_flow.viewModel.BulletinCardViewModelFactory
 import com.example.flat_flow.viewModel.CleaningCardViewModel
 import com.example.flat_flow.viewModel.CleaningCardViewModelFactory
+import com.example.flat_flow.viewModel.DeleteBillCardViewModel
+import com.example.flat_flow.viewModel.DeleteBulletinCardViewModel
+import com.example.flat_flow.viewModel.DeleteCleaningCardViewModel
 
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    deleteBulletinCardViewModel: DeleteBulletinCardViewModel = DeleteBulletinCardViewModel(),
+    deleteBillCardViewModel: DeleteBillCardViewModel = DeleteBillCardViewModel(),
+    deleteCleaningCardViewModel: DeleteCleaningCardViewModel = DeleteCleaningCardViewModel()
+) {
     val fetchBulletinCardsUseCase =
         FetchBulletinCardsUseCase(BulletinCardRepository(RetrofitInstance.api))
     val fetchCleaningCardsUseCase =
@@ -99,7 +106,7 @@ fun HomeScreen() {
                             tint = Color.Gray,
                         )
                     },
-                    onClick = { /*TODO*/ },
+                    onClick = { deleteBulletinCardViewModel.toggleClickableBulletinCard()},
                 )
                 Text(
                     fontSize = 16.sp,
@@ -122,7 +129,7 @@ fun HomeScreen() {
             } else {
                 LazyColumn {
                     items(bulletinCards) { card ->
-                        BulletinCard(card)
+                        BulletinCard(card, viewModel = deleteBulletinCardViewModel)
                     }
                 }
             }
@@ -153,17 +160,17 @@ fun HomeScreen() {
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_delete),
-                                    contentDescription = "Touch to delete card from bulletin board",
+                                    contentDescription = "Touch to delete card from cleaning board",
                                     tint = Color.Gray,
                                 )
                             },
-                            onClick = { /*TODO*/ }
+                            onClick = { deleteCleaningCardViewModel.toggleClickableCleaningCard() }
                         )
                         IconButton(
                             content = {
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_add),
-                                    contentDescription = "Touch to add a card to the bulletin board",
+                                    contentDescription = "Touch to add a card to the cleaning board",
                                     tint = Color.Gray,
                                 )
                             },
@@ -172,14 +179,17 @@ fun HomeScreen() {
                     }
                 }
                 if (cleaningCards.isEmpty()) {
-                    Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no Cleaning Board.")
+                    Text(
+                        modifier = Modifier.padding(start = 16.dp),
+                        text = "Sem dados no Cleaning Board."
+                    )
                 } else {
                     LazyRow(
                         modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(cleaningCards) { card ->
-                            CleaningCard(card)
+                            CleaningCard(card, viewModel = deleteCleaningCardViewModel)
                         }
                     }
                 }
@@ -214,7 +224,7 @@ fun HomeScreen() {
                                         tint = Color.Gray,
                                     )
                                 },
-                                onClick = { /*TODO*/ },
+                                onClick = { deleteBillCardViewModel.toggleClickableBillCard() },
                             )
                             IconButton(
                                 content = {
@@ -229,14 +239,17 @@ fun HomeScreen() {
                         }
                     }
                     if (billCards.isEmpty()) {
-                        Text(modifier = Modifier.padding(start = 16.dp), text = "Sem dados no Bill Board.")
+                        Text(
+                            modifier = Modifier.padding(start = 16.dp),
+                            text = "Sem dados no Bill Board."
+                        )
                     } else {
                         LazyRow(
                             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             items(billCards) { card ->
-                                BillCard(card)
+                                BillCard(card, viewModel = deleteBillCardViewModel)
                             }
                         }
                     }
@@ -249,5 +262,7 @@ fun HomeScreen() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen()
+    HomeScreen(
+        deleteBulletinCardViewModel = TODO()
+    )
 }

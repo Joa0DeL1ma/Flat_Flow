@@ -35,7 +35,7 @@ import com.example.flat_flow.viewModel.LoginViewModel
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: LoginViewModel = viewModel(),
+    viewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
 
