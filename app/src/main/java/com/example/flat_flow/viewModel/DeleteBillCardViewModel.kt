@@ -32,7 +32,7 @@ class DeleteBillCardViewModel: ViewModel() {
                 // Chama o endpoint de deleteBillCard
                 RetrofitInstance.api.deleteBillCard(
                     DeleteBillCardRequest(
-                        idRepublica = AppSession.userSession.idRepublica,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
                         compra = compra.value
                     )
                 )

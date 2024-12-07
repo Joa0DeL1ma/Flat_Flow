@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://f2b0f67c-1606-4384-a575-43c0b247e71c.mock.pstmn.io/" // URL da sua API
+    private const val BASE_URL = "https://flatflow-fa85053e2bd0.herokuapp.com/" // URL da sua API
 
     // Função para criar o Retrofit com log
     val api: ApiService by lazy {

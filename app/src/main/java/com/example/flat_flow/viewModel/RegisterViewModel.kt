@@ -37,6 +37,11 @@ class RegisterViewModel : ViewModel() {
     private val _toastMessage = MutableStateFlow("")
     val toastMessage: StateFlow<String> = _toastMessage
 
+    fun onNombreChange(newNombre: String) {
+        _nombre.value = newNombre
+        validateForm()
+    }
+
     fun onEmailChange(newEmail: String) {
         _email.value = newEmail
         validateForm()

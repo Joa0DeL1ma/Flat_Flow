@@ -1,5 +1,6 @@
 package com.example.flat_flow.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -41,9 +42,9 @@ class LoginViewModel : ViewModel() {
                 val body = response.body()
                 loginMessage.value = "Successful login!"
                 if (body != null) {
-                        AppSession.userSession.idRepublica = body.republica
-                        AppSession.userSession.idUsuario = body.userId
-                        navController.navigate("loading/2000/home")
+                        AppSession.userSession.idRepublica = body.PisoCompartido_idPisoCompartido
+                        AppSession.userSession.idUsuario = body.idUsuarios
+                        AppSession.userSession.idRepublicaInserido = body.codigo
                 }
                 if (AppSession.userSession.idRepublica == 1) {
                     navController.navigate("loading/2000/enterRepublic")

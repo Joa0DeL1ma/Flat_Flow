@@ -84,10 +84,6 @@ fun EnterRepublicScreen(
                     onValueChange = { newValue ->
                         viewModel.idRepublicaInserido.value = newValue },
                     label = { Text(text = "Code...") },
-                    keyboardOptions = KeyboardOptions.Default.copy(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done // Ação 'Done' para fechar o teclado
-                    ),
                     keyboardActions = KeyboardActions(
                         onDone = {
                             // Esconde o teclado quando "Done" é pressionado

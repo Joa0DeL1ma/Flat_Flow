@@ -25,7 +25,7 @@ class CreateBulletinCardViewModel : ViewModel() {
                 RetrofitInstance.api.createBulletinCard(
                     CreateBulletinCardRequest(
                         informaciones = informaciones.value,
-                        idRepublica = AppSession.userSession.idRepublica,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
                         Usuario_idUsuarios = AppSession.userSession.idUsuario
                     )
                 )

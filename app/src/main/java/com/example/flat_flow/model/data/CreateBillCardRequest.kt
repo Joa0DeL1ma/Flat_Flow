@@ -1,9 +1,15 @@
 package com.example.flat_flow.model.data
 
+import java.util.Date
+
 data class CreateBillCardRequest(
     val valor: String,
-    val diaVencimiento: String,
+    val diaVencimiento: Date,
     val compra: String,
-    val PisoCompartido_idPisoCompartido: Int,
-    val Usuario_idUsuarios: Int
+    val PisoCompartido_idPisoCompartido: Int
+)
+
+data class CreateBillCardResponse(
+    val success: Boolean,
+    val message: String
 )

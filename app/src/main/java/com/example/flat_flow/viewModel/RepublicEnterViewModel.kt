@@ -23,7 +23,7 @@ class RepublicEnterViewModel : ViewModel() {
         viewModelScope.launch {
             val response = try {
                 // Chama o endpoint de login
-                RetrofitInstance.api.republicEnter(RepublicEnterRequest(idRepublicaInserido.value.toInt()) )
+                RetrofitInstance.api.republicEnter(RepublicEnterRequest(idRepublicaInserido.value, AppSession.userSession.idUsuario) )
             } catch (e: IOException) {
                 enterMessage.value = "Network error: ${e.message}"
                 return@launch
@@ -35,7 +35,8 @@ class RepublicEnterViewModel : ViewModel() {
                 val body = response.body()
                 enterMessage.value = "Successful!"
                 if (body != null) {
-                    AppSession.userSession.idRepublica = idRepublicaInserido.value.toInt()
+                    AppSession.userSession.idRepublica = body.PisoCompartido_idPisoCompartido
+                    AppSession.userSession.idRepublicaInserido = idRepublicaInserido.value
                 }
                 if (idRepublicaInserido.value.toInt() != 1) {
                     navController.navigate("loading/2000/home")
@@ -50,7 +51,7 @@ class RepublicEnterViewModel : ViewModel() {
         viewModelScope.launch {
             val response = try {
                 // Chama o endpoint de login
-                RetrofitInstance.api.republicCreate(RepublicCreateRequest(idRepublicaInserido.value.toInt(), AppSession.userSession.idUsuario))
+                RetrofitInstance.api.republicCreate(RepublicCreateRequest(idRepublicaInserido.value, AppSession.userSession.idUsuario))
             } catch (e: IOException) {
                 createMessage.value = "Network error: ${e.message}"
                 return@launch
@@ -62,7 +63,7 @@ class RepublicEnterViewModel : ViewModel() {
                 val body = response.body()
                 createMessage.value = "Successful login!"
                 if (body != null) {
-                    AppSession.userSession.idRepublica = body.idRepublica
+                    AppSession.userSession.idRepublica = body.PisoCompartido_idPisoCompartido
                     navController.navigate("loading/2000/home")
                 }
                 if (AppSession.userSession.idRepublica == 1) {

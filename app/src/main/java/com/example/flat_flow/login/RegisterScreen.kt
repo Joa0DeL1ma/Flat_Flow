@@ -77,9 +77,8 @@ fun RegisterScreen(
             TextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = nombre,
-                onValueChange = viewModel::onEmailChange,
-                label = { Text(text = "Name") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                onValueChange = viewModel::onNombreChange,
+                label = { Text(text = "Name") }
             )
             TextField(
                 modifier = Modifier.fillMaxWidth(),

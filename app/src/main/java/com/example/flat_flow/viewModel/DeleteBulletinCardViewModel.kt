@@ -29,7 +29,7 @@ class DeleteBulletinCardViewModel: ViewModel() {
                 // Chama o endpoint de deleteBulletinCard
                 RetrofitInstance.api.deleteBulletinCard(
                     DeleteBulletinCardRequest(
-                        idRepublica = AppSession.userSession.idRepublica,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
                         informaciones = informaciones.value
                     )
                 )

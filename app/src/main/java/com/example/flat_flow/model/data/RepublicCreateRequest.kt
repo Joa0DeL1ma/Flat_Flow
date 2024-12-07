@@ -1,13 +1,12 @@
 package com.example.flat_flow.model.data
 
 data class RepublicCreateRequest(
-    val codigo: Int,
-    val userId: Int
+    val codigo: String,
+    val idUsuarios: Int
 )
 
 data class RepublicCreateResponse(
     val success: Boolean,
-    val idRepublica: Int,
+    val PisoCompartido_idPisoCompartido: Int,
     val message: String
-
 )

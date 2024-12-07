@@ -11,38 +11,46 @@ import com.example.flat_flow.model.data.api.RetrofitInstance
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class CreateBillCardViewModel : ViewModel() {
 
     var valor: MutableState<String> = mutableStateOf("")
     var compra: MutableState<String> = mutableStateOf("")
+    // A data será sempre um valor válido no formato "yyyy/MM/dd"
     var diaVencimiento: MutableState<String> = mutableStateOf("")
     var createBillCardMessage: MutableState<String> = mutableStateOf("")
 
-    // Função de CreateBillCard que chama a API
     fun createBillCard(navController: NavController) {
         viewModelScope.launch {
-            val response = try {
+            try {
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate = sdf.parse(diaVencimiento.value) // Não se preocupa com null aqui
+
                 // Chama o endpoint de CreateBillCard
-                RetrofitInstance.api.createBillCard(
+                val response = RetrofitInstance.api.createBillCard(
                     CreateBillCardRequest(
                         valor = valor.value,
-                        diaVencimiento = diaVencimiento.value,
+                        diaVencimiento = formattedDate,
                         compra = compra.value,
-                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
-                        Usuario_idUsuarios = AppSession.userSession.idUsuario
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                     )
                 )
+
+                if (response.isSuccessful) {
+                    createBillCardMessage.value = "Successful creation!"
+                    navController.navigate("home")
+                } else {
+                    createBillCardMessage.value = "Failed to create bill card."
+                }
+
             } catch (e: IOException) {
                 createBillCardMessage.value = "Network error: ${e.message}"
-                return@launch
             } catch (e: HttpException) {
                 createBillCardMessage.value = "Server error: ${e.message}"
-                return@launch
-            }
-            if (response.isSuccessful) {
-                createBillCardMessage.value = "Successful creation!"
-                navController.navigate("home")
+            } catch (e: Exception) {
+                createBillCardMessage.value = "Unknown error: ${e.message}"
             }
         }
     }

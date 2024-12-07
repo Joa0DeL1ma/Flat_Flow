@@ -52,19 +52,6 @@ fun CleaningCard(
             text = task.quehacer
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(fontSize = 14.sp, text = task.diaVencimiento)
+        Text(fontSize = 14.sp, text = task.diaVencimiento.toString())
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun CleaningCardPreview() {
-    CleaningCard(
-        task = CleaningCards(
-            quehacer = "Lavar a casa",
-            diaVencimiento = "2023-12-31"
-        ),
-        viewModel = TODO(),
-        navController = TODO(),
-    )
 }

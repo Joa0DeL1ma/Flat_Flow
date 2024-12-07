@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.flat_flow.AppSession
 import com.example.flat_flow.R
 
 @Suppress("ktlint:standard:function-naming")
@@ -53,7 +54,7 @@ fun HomeTopAppBar(modifier: Modifier = Modifier) {
                 fontWeight = FontWeight.Bold,
                 color = Color(0xff005BC5),
                 modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, end = 8.dp),
-                text = "X23FG",
+                text = AppSession.userSession.idRepublicaInserido,
                 fontSize = 20.sp,
             )
         }

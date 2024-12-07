@@ -1,5 +1,6 @@
 package com.example.flat_flow.home
 
+import android.app.DatePickerDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
@@ -19,9 +21,14 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +40,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.R
 import com.example.flat_flow.home.widgets.HomeTopAppBar
 import com.example.flat_flow.viewModel.CreateBillCardViewModel
+import java.util.Calendar
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
@@ -40,6 +48,30 @@ fun CreateBillCardScreen(
     navController: NavHostController,
     viewModel: CreateBillCardViewModel = viewModel()
 ) {
+    val context = LocalContext.current
+    var selectedDate by remember { mutableStateOf("") }
+
+    // Função para abrir o DatePicker
+    val openDatePicker = {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            context,
+            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                // Atualiza o campo de data quando o usuário escolher uma data
+                selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDayOfMonth"
+                viewModel.diaVencimiento.value = selectedDate // Atualiza no ViewModel
+            },
+            year,
+            month,
+            dayOfMonth
+        )
+        datePickerDialog.show()
+    }
+
     Column(
         modifier =
         Modifier
@@ -124,6 +156,23 @@ fun CreateBillCardScreen(
                 value = viewModel.compra.value,
                 onValueChange = { viewModel.compra.value = it },
                 placeholder = { Text(color = Color.LightGray, text = "Light, rent, groceries...") },
+            )
+            Text(
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+                fontWeight = FontWeight.Bold,
+                text = "Date:",
+            )
+            OutlinedTextField(
+                value = selectedDate,
+                onValueChange = {},
+                label = { Text("Select a date") },
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { openDatePicker() }) {
+                        Icon(painterResource(R.drawable.baseline_calendar_month_24), contentDescription = "Pick a date")
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
             )
             Button(
                 enabled = viewModel.compra.value.isNotEmpty()&& viewModel.valor.value.isNotEmpty()&& viewModel.diaVencimiento.value.isNotEmpty(),

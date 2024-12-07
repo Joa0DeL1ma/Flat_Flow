@@ -30,7 +30,7 @@ class DeleteCleaningCardViewModel() : ViewModel() {
                 // Chama o endpoint de deleteBillCard
                 RetrofitInstance.api.deleteCleaningCard(
                     DeleteCleaningCardRequest(
-                        idRepublica = AppSession.userSession.idRepublica,
+                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
                         quehacer = quehacer.value
                     )
                 )
