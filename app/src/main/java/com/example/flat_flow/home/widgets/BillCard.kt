@@ -53,7 +53,7 @@ fun BillCard(
                 text = card.diaVencimiento.toString(),
             )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(text = "$" + card.valor)
+        Text(text = "R$" + card.valor)
     }
 }
 

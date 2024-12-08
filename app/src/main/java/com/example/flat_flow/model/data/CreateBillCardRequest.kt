@@ -4,7 +4,7 @@ import java.util.Date
 
 data class CreateBillCardRequest(
     val valor: String,
-    val diaVencimiento: Date,
+    val diaVencimiento: String,
     val compra: String,
     val PisoCompartido_idPisoCompartido: Int
 )

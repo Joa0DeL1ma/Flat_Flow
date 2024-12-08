@@ -65,17 +65,20 @@ interface ApiService {
 
     @DELETE("deleteBulletinCard")
     suspend fun deleteBulletinCard(
-        @Body deleteBulletinCardRequest: DeleteBulletinCardRequest,
+        @Query("informaciones") informaciones: String,
+        @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
 
     @DELETE("deleteBillCard")
     suspend fun deleteBillCard(
-        @Body deleteBillCardRequest: DeleteBillCardRequest,
+        @Query("compra") compra: String,
+        @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
- //delete transformar
+
     @DELETE("deleteCleaningCard")
     suspend fun deleteCleaningCard(
-        @Body deleteCleaningCardRequest: DeleteCleaningCardRequest,
+        @Query("quehacer") quehacer: String,
+        @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
 
     @GET("getBulletinCard")

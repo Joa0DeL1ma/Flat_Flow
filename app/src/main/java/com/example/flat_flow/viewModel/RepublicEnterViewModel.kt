@@ -37,10 +37,11 @@ class RepublicEnterViewModel : ViewModel() {
                 if (body != null) {
                     AppSession.userSession.idRepublica = body.PisoCompartido_idPisoCompartido
                     AppSession.userSession.idRepublicaInserido = idRepublicaInserido.value
+                    if (AppSession.userSession.idRepublica!= 1) {
+                        navController.navigate("loading/2000/home")
+                    }
                 }
-                if (idRepublicaInserido.value.toInt() != 1) {
-                    navController.navigate("loading/2000/home")
-                } else {
+                else {
                     enterMessage.value = "Enter republic failed: ${response.message()}"
                 }
             }
@@ -64,6 +65,7 @@ class RepublicEnterViewModel : ViewModel() {
                 createMessage.value = "Successful login!"
                 if (body != null) {
                     AppSession.userSession.idRepublica = body.PisoCompartido_idPisoCompartido
+                    AppSession.userSession.idRepublicaInserido = idRepublicaInserido.value
                     navController.navigate("loading/2000/home")
                 }
                 if (AppSession.userSession.idRepublica == 1) {

@@ -25,14 +25,20 @@ class CreateBillCardViewModel : ViewModel() {
     fun createBillCard(navController: NavController) {
         viewModelScope.launch {
             try {
+                // Validar o formato da data como "yyyy-MM-dd"
                 val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formattedDate = sdf.parse(diaVencimiento.value) // Não se preocupa com null aqui
-
+                val formattedDate: String = try {
+                    val date = sdf.parse(diaVencimiento.value)
+                    sdf.format(date!!)
+                } catch (e: Exception) {
+                    createBillCardMessage.value = "Invalid date format. Please use yyyy-MM-dd."
+                    return@launch
+                }
                 // Chama o endpoint de CreateBillCard
                 val response = RetrofitInstance.api.createBillCard(
                     CreateBillCardRequest(
                         valor = valor.value,
-                        diaVencimiento = formattedDate,
+                        diaVencimiento = formattedDate, // Envia a data no formato esperado pelo banco
                         compra = compra.value,
                         PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                     )

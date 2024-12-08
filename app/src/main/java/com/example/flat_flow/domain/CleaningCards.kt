@@ -4,5 +4,5 @@ import java.util.Date
 
 data class CleaningCards(
     val quehacer: String,
-    val diaVencimiento: Date
+    val diaVencimiento: String
 )

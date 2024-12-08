@@ -17,43 +17,50 @@ import java.util.*
 class CreateCleaningCardViewModel : ViewModel() {
 
     var quehacer: MutableState<String> = mutableStateOf("")
-
-    // A data é armazenada como String no formato "yyyy/MM/dd"
-    var diaVencimiento: MutableState<String> = mutableStateOf("")
-
+    var diaVencimiento: MutableState<String> = mutableStateOf("") // Data como String
     var createCleaningCardMessage: MutableState<String> = mutableStateOf("")
 
     // Função para criar o cleaning card
     fun createCleaningCard(navController: NavController) {
-        viewModelScope.launch {
-            val response = try {
-                // Aqui, convertendo a String para Date diretamente
-                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                val formattedDate = sdf.parse(diaVencimiento.value)
+        // Validação simples para evitar chamadas desnecessárias
+        if (quehacer.value.isEmpty() || diaVencimiento.value.isEmpty()) {
+            createCleaningCardMessage.value = "Please fill all fields."
+            return
+        }
 
-                // Chama o endpoint de createCleaningCard
-                RetrofitInstance.api.createCleaningCard(
+        viewModelScope.launch {
+            try {
+                // Validar o formato da data como "yyyy-MM-dd"
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val formattedDate: String = try {
+                    val date = sdf.parse(diaVencimiento.value)
+                    sdf.format(date!!)
+                } catch (e: Exception) {
+                    createCleaningCardMessage.value = "Invalid date format. Please use yyyy-MM-dd."
+                    return@launch
+                }
+
+                val response = RetrofitInstance.api.createCleaningCard(
                     CreateCleaningCardRequest(
                         quehacer = quehacer.value,
-                        diaVencimiento = formattedDate, // Envia a data formatada como Date
+                        diaVencimiento = formattedDate, // Envia a data no formato esperado pelo banco
                         Usuario_idUsuarios = AppSession.userSession.idUsuario,
                         PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                     )
                 )
+
+                if (response.isSuccessful) {
+                    createCleaningCardMessage.value = "Card created successfully!"
+                    navController.navigate("home")
+                } else {
+                    createCleaningCardMessage.value = "Failed to create card: ${response.errorBody()?.string()}"
+                }
             } catch (e: IOException) {
                 createCleaningCardMessage.value = "Network error: ${e.message}"
-                return@launch
             } catch (e: HttpException) {
                 createCleaningCardMessage.value = "Server error: ${e.message}"
-                return@launch
             } catch (e: Exception) {
-                createCleaningCardMessage.value = "Error parsing date: ${e.message}"
-                return@launch
-            }
-
-            if (response.isSuccessful) {
-                createCleaningCardMessage.value = "Successful creation!"
-                navController.navigate("home")
+                createCleaningCardMessage.value = "Unexpected error: ${e.message}"
             }
         }
     }

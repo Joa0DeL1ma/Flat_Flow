@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.flat_flow.AppSession
-import com.example.flat_flow.model.data.DeleteCleaningCardRequest
 import com.example.flat_flow.model.data.api.RetrofitInstance
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,10 +28,8 @@ class DeleteCleaningCardViewModel() : ViewModel() {
             val response = try {
                 // Chama o endpoint de deleteBillCard
                 RetrofitInstance.api.deleteCleaningCard(
-                    DeleteCleaningCardRequest(
                         PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
                         quehacer = quehacer.value
-                    )
                 )
             } catch (e: IOException) {
                 deleteCleaningCardMessage.value = "Network error: ${e.message}"
@@ -42,7 +39,7 @@ class DeleteCleaningCardViewModel() : ViewModel() {
                 return@launch
             }
             if (response.isSuccessful) {
-                delay(2000)
+                delay(500)
                 navController.navigate("home")
                 deleteCleaningCardMessage.value = "Successful deletion!"
             }

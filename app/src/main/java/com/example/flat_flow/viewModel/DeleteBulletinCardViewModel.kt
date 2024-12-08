@@ -7,31 +7,35 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import com.example.flat_flow.AppSession
-import com.example.flat_flow.model.data.DeleteBulletinCardRequest
 import com.example.flat_flow.model.data.api.RetrofitInstance
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-class DeleteBulletinCardViewModel: ViewModel() {
+class DeleteBulletinCardViewModel : ViewModel() {
     private val _clickableBulletinCard = mutableStateOf(false)
     val clickableBulletinCard: State<Boolean> = _clickableBulletinCard
     var deleteBulletinCardMessage: MutableState<String> = mutableStateOf("")
-    var informaciones: MutableState<String> = mutableStateOf("")
+    var informaciones: MutableState<String> = mutableStateOf("") // ID do cartão a ser deletado
 
     fun toggleClickableBulletinCard() {
         _clickableBulletinCard.value = !_clickableBulletinCard.value
     }
+
     fun deleteBulletinCard(navController: NavController) {
         viewModelScope.launch {
+            // Validação para evitar chamadas desnecessárias
+            if (informaciones.value == null) {
+                deleteBulletinCardMessage.value = "Invalid card ID."
+                return@launch
+            }
+
             val response = try {
-                // Chama o endpoint de deleteBulletinCard
+                // Chama o endpoint de deleteBulletinCard com os parâmetros de consulta
                 RetrofitInstance.api.deleteBulletinCard(
-                    DeleteBulletinCardRequest(
-                        PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
-                        informaciones = informaciones.value
-                    )
+                    informaciones = informaciones.value,
+                    PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                 )
             } catch (e: IOException) {
                 deleteBulletinCardMessage.value = "Network error: ${e.message}"
@@ -40,12 +44,14 @@ class DeleteBulletinCardViewModel: ViewModel() {
                 deleteBulletinCardMessage.value = "Server error: ${e.message}"
                 return@launch
             }
+
             if (response.isSuccessful) {
-                delay(2000)
+                delay(500)
                 navController.navigate("home")
                 deleteBulletinCardMessage.value = "Successful deletion!"
+            } else {
+                deleteBulletinCardMessage.value = "Failed to delete card."
             }
         }
     }
 }
-

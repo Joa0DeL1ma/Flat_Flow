@@ -4,7 +4,7 @@ import java.util.Date
 
 data class CreateCleaningCardRequest(
     val quehacer: String,
-    val diaVencimiento: Date,
+    val diaVencimiento: String,
     val Usuario_idUsuarios: Int,
     val PisoCompartido_idPisoCompartido: Int
 )
