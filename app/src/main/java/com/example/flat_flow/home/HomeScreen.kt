@@ -131,7 +131,7 @@ fun HomeScreen(
             }
             Text(modifier = Modifier.padding(bottom = 16.dp), fontSize = 14.sp, text = "Touch trash and card to delete a card")
             if (bulletinCards.isEmpty()) {
-                Text(text = "Sem dados no Bulletin Board.")
+                Text(text = "Empty Bulletin Board.")
             } else {
                 LazyColumn {
                     items(bulletinCards) { card ->
@@ -191,7 +191,7 @@ fun HomeScreen(
                 if (cleaningCards.isEmpty()) {
                     Text(
                         modifier = Modifier.padding(start = 16.dp),
-                        text = "Sem dados no Cleaning Board."
+                        text = "Empty Cleaning Board."
                     )
                 } else {
                     LazyRow(
@@ -255,7 +255,7 @@ fun HomeScreen(
                     if (billCards.isEmpty()) {
                         Text(
                             modifier = Modifier.padding(start = 16.dp),
-                            text = "Sem dados no Bill Board."
+                            text = "Empty Bill Board."
                         )
                     } else {
                         LazyRow(

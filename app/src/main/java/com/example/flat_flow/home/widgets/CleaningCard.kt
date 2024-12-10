@@ -1,6 +1,5 @@
 package com.example.flat_flow.home.widgets
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -36,8 +34,10 @@ fun CleaningCard(
         Modifier
             .clickable(
                 enabled = viewModel.clickableCleaningCard.value,
-                onClick = { viewModel.quehacer.value = task.quehacer;
-                    viewModel.deleteCleaningCard(navController) })
+                onClick = {
+                    viewModel.quehacer.value = task.quehacer;
+                    viewModel.deleteCleaningCard(navController)
+                })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)
@@ -52,6 +52,9 @@ fun CleaningCard(
             text = task.quehacer
         )
         Spacer(modifier = Modifier.height(5.dp))
-        Text(fontSize = 14.sp, text = task.diaVencimiento.toString())
+        Text(
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            text = task.diaVencimiento.toString())
     }
 }

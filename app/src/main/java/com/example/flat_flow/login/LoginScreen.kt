@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -17,9 +19,12 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,13 +36,15 @@ import com.example.flat_flow.R
 import com.example.flat_flow.viewModel.LoginViewModel
 
 
-@Suppress("ktlint:standard:function-naming")
 @Composable
 fun LoginScreen(
     navController: NavHostController,
     viewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
+
+    // Criando FocusRequester para gerenciar foco
+    val passwordFocusRequester = FocusRequester()
 
     // Observar a mensagem de login
     val loginMessage = viewModel.loginMessage.value
@@ -68,16 +75,25 @@ fun LoginScreen(
                 tint = Color.White,
             )
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth(),
                 value = viewModel.email.value,
                 onValueChange = { newValue ->
                     viewModel.email.value = newValue
                     viewModel.updateLoginButtonState()
                 },
                 label = { Text(text = "Email") },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        passwordFocusRequester.requestFocus()
+                    }
+                ),
             )
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(passwordFocusRequester),
                 value = viewModel.contraseña.value,
                 onValueChange = { newValue ->
                     viewModel.contraseña.value = newValue
@@ -85,6 +101,12 @@ fun LoginScreen(
                 },
                 label = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        viewModel.login(navController)
+                    }
+                ),
             )
         }
         if (viewModel.enableWrongLoginAlert.value) {

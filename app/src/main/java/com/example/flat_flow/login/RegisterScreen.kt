@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,9 +21,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +54,11 @@ fun RegisterScreen(
     val toastMessage by viewModel.toastMessage.collectAsState()
     val context = LocalContext.current
 
-    // Exibir Toast quando a mensagem mudar
+    // Focus Requesters para navegação entre campos
+    val emailFocusRequester = FocusRequester()
+    val passwordFocusRequester = FocusRequester()
+    val repeatPasswordFocusRequester = FocusRequester()
+
     if (toastMessage.isNotEmpty()) {
         Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show()
         viewModel.clearToastMessage()
@@ -78,30 +86,49 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = nombre,
                 onValueChange = viewModel::onNombreChange,
-                label = { Text(text = "Name") }
+                label = { Text(text = "Name") },
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { emailFocusRequester.requestFocus() }
+                )
             )
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(emailFocusRequester),
                 value = email,
                 onValueChange = viewModel::onEmailChange,
                 label = { Text(text = "Email") },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email, imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { passwordFocusRequester.requestFocus() }
+                ),
             )
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(passwordFocusRequester),
                 value = password,
                 onValueChange = viewModel::onPasswordChange,
                 label = { Text(text = "Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = { repeatPasswordFocusRequester.requestFocus() }
+                ),
             )
             TextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(repeatPasswordFocusRequester),
                 value = repeatPassword,
                 onValueChange = viewModel::onRepeatPasswordChange,
                 label = { Text(text = "Repeat Password") },
                 visualTransformation = PasswordVisualTransformation(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = { /* Aqui pode-se chamar uma ação, como validação */ }
+                ),
             )
         }
         if (enableMinCharAlert) {
