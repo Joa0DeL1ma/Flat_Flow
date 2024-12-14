@@ -17,7 +17,7 @@ class DeleteBillCardViewModel: ViewModel() {
     private val _clickableBillCard = mutableStateOf(false)
     val clickableBillCard: State<Boolean> = _clickableBillCard
     var deleteBillCardMessage: MutableState<String> = mutableStateOf("")
-    var compra: MutableState<String> = mutableStateOf("")
+    var idCuenta: MutableState<Int> = mutableStateOf(-1)
 
 
     fun toggleClickableBillCard() {
@@ -26,10 +26,14 @@ class DeleteBillCardViewModel: ViewModel() {
 
     fun deleteBillCard(navController: NavController) {
         viewModelScope.launch {
+            if (idCuenta.value == -1) {
+                deleteBillCardMessage.value = "Invalid card ID."
+                return@launch
+            }
             val response = try {
                 // Chama o endpoint de deleteBillCard
                 RetrofitInstance.api.deleteBillCard(
-                        compra = compra.value,
+                        idCuenta = idCuenta.value,
                         PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                     )
             } catch (e: IOException) {

@@ -83,6 +83,7 @@ fun CreateCleaningCardScreen(
                 top = 6.dp,
                 bottom = 16.dp,
             ),
+            navController = navController
         )
         Column(
             modifier =

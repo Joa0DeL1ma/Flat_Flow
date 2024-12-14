@@ -11,6 +11,8 @@ import com.example.flat_flow.home.CreateBillCardScreen
 import com.example.flat_flow.home.CreateBulletinCardScreen
 import com.example.flat_flow.home.CreateCleaningCardScreen
 import com.example.flat_flow.home.HomeScreen
+import com.example.flat_flow.home.LogoutScreen
+import com.example.flat_flow.home.MembersScreen
 import com.example.flat_flow.login.EnterRepublicScreen
 import com.example.flat_flow.login.LoadingScreen
 import com.example.flat_flow.login.LoginScreen
@@ -32,6 +34,8 @@ class MainActivity : ComponentActivity() {
                     composable("createBillCard") { CreateBillCardScreen(navController) }
                     composable("createBulletinCard") { CreateBulletinCardScreen(navController) }
                     composable("createCleaningCard") { CreateCleaningCardScreen(navController) }
+                    composable("membersScreen") { MembersScreen(navController) }
+                    composable("logoutScreen") { LogoutScreen(navController) }
 
                     // Rota para a tela de loading com parâmetros
                     composable("loading/{time}/{destination}") { backStackEntry ->

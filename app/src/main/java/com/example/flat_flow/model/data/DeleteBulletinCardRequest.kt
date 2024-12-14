@@ -1,6 +1,6 @@
 package com.example.flat_flow.model.data
 
 data class DeleteBulletinCardRequest(
-    val informaciones: String,
+    val idMuro: Int,
     val PisoCompartido_idPisoCompartido: Int
 )

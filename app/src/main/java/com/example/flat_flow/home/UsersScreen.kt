@@ -10,15 +10,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,15 +33,24 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.flat_flow.R
+import com.example.flat_flow.domain.FetchMembersUseCase
 import com.example.flat_flow.home.widgets.HomeTopAppBar
-import com.example.flat_flow.viewModel.CreateBulletinCardViewModel
+import com.example.flat_flow.home.widgets.MembersItem
+import com.example.flat_flow.model.data.MembersRepository
+import com.example.flat_flow.model.data.api.RetrofitInstance
+import com.example.flat_flow.viewModel.MembersScreenViewModel
+import com.example.flat_flow.viewModel.MembersScreenViewModelFactory
 
 @Suppress("ktlint:standard:function-naming")
 @Composable
-fun CreateBulletinCardScreen(
-    navController: NavHostController,
-    viewModel: CreateBulletinCardViewModel = viewModel()
+fun MembersScreen(
+    navController: NavHostController
 ) {
+    val fetchMembersUseCase =
+        FetchMembersUseCase(MembersRepository(RetrofitInstance.api))
+    val membersFactory = MembersScreenViewModelFactory(fetchMembersUseCase)
+    val membersScreenViewModel: MembersScreenViewModel = viewModel(factory = membersFactory)
+    val members by membersScreenViewModel.members
 
     Column(
         modifier =
@@ -77,7 +88,7 @@ fun CreateBulletinCardScreen(
                     content = {
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
-                            contentDescription = "Touch to add a card to the Bill board",
+                            contentDescription = "Go back",
                             tint = Color.Gray,
                         )
                     },
@@ -87,47 +98,21 @@ fun CreateBulletinCardScreen(
                     modifier = Modifier.padding(top = 16.dp, end = 20.dp),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    text = "Bulletin board card creation",
+                    text = "Republic participants list",
                 )
             }
-            Text(
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
-                fontWeight = FontWeight.Bold,
-                text = "Insert content:",
-            )
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                colors =
-                OutlinedTextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.White,
-                    unfocusedBorderColor = Color(0xff005BC5),
-                    focusedContainerColor = Color.White,
-                    focusedBorderColor = Color(0xff005BC5),
-                ),
-                value = viewModel.informaciones.value,
-                onValueChange = { viewModel.informaciones.value = it },
-                placeholder = { Text(color = Color.LightGray, text = "Card content...") },
-            )
-            Button(
-                shape = RoundedCornerShape(6.dp),
-                modifier = Modifier
-                    .padding(top = 32.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
-                colors =
-                ButtonColors(
-                    containerColor = Color(0xff005BC5),
-                    contentColor = Color.White,
-                    disabledContentColor = Color.White,
-                    disabledContainerColor = Color.Gray,
-                ),
-                onClick = {
-                    viewModel.createBulletinCard(navController)
-                },
-                enabled = viewModel.informaciones.value.isNotEmpty()
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(text = "Create card")
+                items(members) { member ->
+                    MembersItem(
+                        member
+                    )
+                }
             }
+
         }
     }
 }
@@ -135,6 +120,6 @@ fun CreateBulletinCardScreen(
 @Suppress("ktlint:standard:function-naming")
 @Preview
 @Composable
-fun CreateBulletinCardScreenPreview() {
-    CreateBulletinCardScreen(navController = rememberNavController())
+fun MembersScreenPreview() {
+    MembersScreen(navController = rememberNavController())
 }

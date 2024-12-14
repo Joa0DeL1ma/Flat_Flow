@@ -35,7 +35,7 @@ fun CleaningCard(
             .clickable(
                 enabled = viewModel.clickableCleaningCard.value,
                 onClick = {
-                    viewModel.quehacer.value = task.quehacer;
+                    viewModel.idCalendario.value = task.idCalendario;
                     viewModel.deleteCleaningCard(navController)
                 })
             .clip(RoundedCornerShape(10.dp))

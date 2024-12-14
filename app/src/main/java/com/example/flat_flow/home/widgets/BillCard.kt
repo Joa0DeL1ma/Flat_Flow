@@ -34,7 +34,7 @@ fun BillCard(
         Modifier
             .clickable(
                 enabled = viewModel.clickableBillCard.value,
-                onClick = { viewModel.compra.value = card.compra; viewModel.deleteBillCard(navController) })
+                onClick = { viewModel.idCuenta.value = card.idCuenta; viewModel.deleteBillCard(navController) })
             .clip(RoundedCornerShape(10.dp))
             .background(Color.LightGray)
             .height(120.dp)

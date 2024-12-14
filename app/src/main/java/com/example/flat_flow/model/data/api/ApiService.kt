@@ -3,6 +3,7 @@ package com.example.flat_flow.model.data.api
 import com.example.flat_flow.domain.BillCards
 import com.example.flat_flow.domain.BulletinCards
 import com.example.flat_flow.domain.CleaningCards
+import com.example.flat_flow.domain.Members
 import com.example.flat_flow.model.data.CreateBillCardRequest
 import com.example.flat_flow.model.data.CreateBillCardResponse
 import com.example.flat_flow.model.data.CreateBulletinCardRequest
@@ -14,6 +15,8 @@ import com.example.flat_flow.model.data.DeleteBulletinCardRequest
 import com.example.flat_flow.model.data.DeleteCleaningCardRequest
 import com.example.flat_flow.model.data.LoginRequest
 import com.example.flat_flow.model.data.LoginResponse
+import com.example.flat_flow.model.data.QuitRepublicRequest
+import com.example.flat_flow.model.data.QuitRepublicResponse
 import com.example.flat_flow.model.data.RegisterRequest
 import com.example.flat_flow.model.data.RegisterResponse
 import com.example.flat_flow.model.data.RepublicCreateRequest
@@ -32,6 +35,11 @@ interface ApiService {
     suspend fun login(
         @Body loginRequest: LoginRequest,
     ): Response<LoginResponse>
+
+    @POST("quitRepublic")
+    suspend fun quitRepublic(
+        @Body quitRepublicRequest: QuitRepublicRequest,
+    ): Response<QuitRepublicResponse>
 
     @POST("criar_usuario")
     suspend fun register(
@@ -65,19 +73,19 @@ interface ApiService {
 
     @DELETE("deleteBulletinCard")
     suspend fun deleteBulletinCard(
-        @Query("informaciones") informaciones: String,
+        @Query("idMuro") idMuro: Int,
         @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
 
     @DELETE("deleteBillCard")
     suspend fun deleteBillCard(
-        @Query("compra") compra: String,
+        @Query("idCuenta") idCuenta: Int,
         @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
 
     @DELETE("deleteCleaningCard")
     suspend fun deleteCleaningCard(
-        @Query("quehacer") quehacer: String,
+        @Query("idCalendario") idCalendario: Int,
         @Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int
     ): Response<Unit>
 
@@ -90,6 +98,9 @@ interface ApiService {
     @GET("getCleaningCard")
     suspend fun getCleaningCards(@Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int): List<CleaningCards>
 
+    @GET("get_membros")
+    suspend fun getMembers(@Query("PisoCompartido_idPisoCompartido") PisoCompartido_idPisoCompartido: Int): List<Members>
 }
+
 
 

@@ -17,7 +17,7 @@ class DeleteBulletinCardViewModel : ViewModel() {
     private val _clickableBulletinCard = mutableStateOf(false)
     val clickableBulletinCard: State<Boolean> = _clickableBulletinCard
     var deleteBulletinCardMessage: MutableState<String> = mutableStateOf("")
-    var informaciones: MutableState<String> = mutableStateOf("") // ID do cartão a ser deletado
+    var idMuro: MutableState<Int> = mutableStateOf(-1) // ID do cartão a ser deletado
 
     fun toggleClickableBulletinCard() {
         _clickableBulletinCard.value = !_clickableBulletinCard.value
@@ -26,7 +26,7 @@ class DeleteBulletinCardViewModel : ViewModel() {
     fun deleteBulletinCard(navController: NavController) {
         viewModelScope.launch {
             // Validação para evitar chamadas desnecessárias
-            if (informaciones.value == null) {
+            if (idMuro.value == -1) {
                 deleteBulletinCardMessage.value = "Invalid card ID."
                 return@launch
             }
@@ -34,7 +34,7 @@ class DeleteBulletinCardViewModel : ViewModel() {
             val response = try {
                 // Chama o endpoint de deleteBulletinCard com os parâmetros de consulta
                 RetrofitInstance.api.deleteBulletinCard(
-                    informaciones = informaciones.value,
+                    idMuro = idMuro.value,
                     PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica
                 )
             } catch (e: IOException) {

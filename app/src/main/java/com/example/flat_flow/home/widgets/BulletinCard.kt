@@ -28,7 +28,7 @@ import com.example.flat_flow.viewModel.DeleteBulletinCardViewModel
 fun BulletinCard(
     card: BulletinCards,
     viewModel: DeleteBulletinCardViewModel,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
 
     Column(
@@ -36,7 +36,7 @@ fun BulletinCard(
         Modifier
             .clickable(
                 enabled = viewModel.clickableBulletinCard.value,
-                onClick = { viewModel.informaciones.value = card.informaciones; viewModel.deleteBulletinCard(navController) })
+                onClick = { viewModel.idMuro.value = card.idMuro; viewModel.deleteBulletinCard(navController) })
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xff005BC5))
             .heightIn(min = 80.dp)
@@ -49,8 +49,15 @@ fun BulletinCard(
             color = Color.White,
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,
-            text = card.informaciones,
+            text = card.informaciones
         )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            color = Color.White,
+            fontSize = 10.sp,
+            text = "- "+card.nombre
+        )
+
     }
     Spacer(Modifier.height(8.dp))
 }
@@ -60,7 +67,9 @@ fun BulletinCard(
 fun BulletinCardPreview() {
     BulletinCard(
         card = BulletinCards(
-            informaciones = "Lava as cueca fulano, ta fedendo a casa toda."
+            informaciones = "Lava as cueca fulano, ta fedendo a casa toda.",
+            idMuro = 1,
+            nombre = "Jose"
         ),
         viewModel = TODO(),
         navController = TODO()

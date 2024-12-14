@@ -17,7 +17,7 @@ class DeleteCleaningCardViewModel() : ViewModel() {
     private val _clickableCleaningCard = mutableStateOf(false)
     val clickableCleaningCard: State<Boolean> = _clickableCleaningCard
     var deleteCleaningCardMessage: MutableState<String> = mutableStateOf("")
-    var quehacer: MutableState<String> = mutableStateOf("")
+    var idCalendario: MutableState<Int> = mutableStateOf(-1)
 
     fun toggleClickableCleaningCard() {
         _clickableCleaningCard.value = !_clickableCleaningCard.value
@@ -25,11 +25,15 @@ class DeleteCleaningCardViewModel() : ViewModel() {
 
     fun deleteCleaningCard(navController: NavController) {
         viewModelScope.launch {
+            if (idCalendario.value == -1) {
+                deleteCleaningCardMessage.value = "Invalid card ID."
+                return@launch
+            }
             val response = try {
                 // Chama o endpoint de deleteBillCard
                 RetrofitInstance.api.deleteCleaningCard(
                         PisoCompartido_idPisoCompartido = AppSession.userSession.idRepublica,
-                        quehacer = quehacer.value
+                        idCalendario = idCalendario.value
                 )
             } catch (e: IOException) {
                 deleteCleaningCardMessage.value = "Network error: ${e.message}"
